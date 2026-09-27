@@ -122,7 +122,7 @@ audio low-pass + level shift -> ESP32 ADC (44.1 kHz) -> APT image in software
 ## Simulations (LTspice)
 
 I simulated every block on its own first, then the connections between blocks,
-then the whole receiver. All files are in this folder; each sheet has a short
+then the whole receiver. All files are in [`simulations/`](simulations); each sheet has a short
 header saying what it tests.
 
 | Sim | What it checks | Key result |
@@ -179,8 +179,8 @@ design authority for the PCB.
 
 | File | What it is |
 |---|---|
-| `sim*.asc` | the LTspice simulations (short header on each sheet) |
-| `sim12_full_receiver.asc` / `.net` | the full receiver, the design authority for the PCB |
+| [`simulations/`](simulations) | the LTspice simulations `sim*.asc` (short header on each sheet) |
+| `simulations/sim12_full_receiver.asc` / `.net` | the full receiver, the design authority for the PCB |
 | [`DESIGN_LOG.md`](DESIGN_LOG.md) | the complete step-by-step design log, with every result and revision |
 | [`sim_notes.md`](sim_notes.md) | the notes I first wrote on the simulation sheets |
 

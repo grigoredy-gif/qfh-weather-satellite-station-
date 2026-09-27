@@ -4,7 +4,7 @@
 
 This is the board-level design for the receiver that is simulated and verified in
 [`../fm_receiver/`](../fm_receiver/). The electrical reference for this board
-is **`../fm_receiver/sim12_full_receiver.net`**. It is the LTspice-generated
+is **`../fm_receiver/simulations/sim12_full_receiver.net`**. It is the LTspice-generated
 netlist of the full receiver, and it was checked line by line against every block
 simulation. If this folder and that netlist ever disagree, the netlist wins.
 
@@ -322,7 +322,7 @@ drift the IF tanks by ~±260 kHz over a room's temperature swing), nF-range
 parts are X7R, the electrolytics 10 V (D5/P2.5 for the 100 µF, D8/P3.5 for the
 1000 µF), the crystal is a **fundamental-mode** HC-49/S (a 3rd-overtone 25 MHz part
 would run at 8.3 MHz in this Colpitts), and each coil has its winding recipe. The BOM
-is exported from those fields: `pcb/gen/qfh_receiver_bom.csv` (71 lines; the
+is exported from those fields: `pcb/fabrication/qfh_receiver_bom.csv` (71 lines; the
 four toroid variants stay on separate lines).
 
 The BPF pair was the only position still close to a mechanical stop. Its
@@ -888,7 +888,7 @@ run.
   0.35 mm flashes on the paste and mask layers); assembly drawing:
   `kicad-cli pcb export pdf --layers F.Fab,Dwgs.User,Edge.Cuts`.
 - **BOM.** See the sourcing section: MPN/Farnell/Spec fields on the symbols,
-  `pcb/gen/qfh_receiver_bom.csv` exported from them.
+  `pcb/fabrication/qfh_receiver_bom.csv` exported from them.
 - **Documents.** Frozen decisions 1 and 4, the footprint text (all 0805; the
   3-turn link on L1 and L7 only), the IF-decoupling table, the exceptions
   table (with the measured vb2 crossing inventory), the sourcing tables, the

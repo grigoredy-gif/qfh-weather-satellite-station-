@@ -109,7 +109,7 @@ came out wrong.
 
 ## Ordering
 
-The bill of materials with Farnell order codes is `gen/qfh_receiver_bom.csv`.
+The bill of materials with Farnell order codes is `fabrication/qfh_receiver_bom.csv`, and the gerbers for JLCPCB are `fabrication/qfh_receiver_gerbers_jlc.zip`.
 Every pF-range capacitor must be NP0/C0G, and the crystal must be a
 fundamental-mode part. Both SMAs are edge-launch parts whose pads run to the
 board edge on purpose, so the board house may ask about copper at the edge.
@@ -121,7 +121,7 @@ board edge on purpose, so the board house may ask about copper at the edge.
 | `qfh_receiver.kicad_pro` / `.kicad_sch` / `.kicad_pcb` | the KiCad project, schematic and board |
 | `qfh_receiver.kicad_dru` | custom design rules (edge clearance at the two SMAs) |
 | `qfh_receiver.pretty/` | my footprints for the toroids and air coils |
-| `gen/qfh_receiver_bom.csv` | the bill of materials |
+| `fabrication/` | the bill of materials and the gerbers for ordering |
 | `img/` | board renders |
 | [`DESIGN_LOG.md`](DESIGN_LOG.md) | the complete step-by-step design log |
 

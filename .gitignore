@@ -14,8 +14,10 @@ vault/
 *.db
 *.plt
 Plot.plt.txt
-fm_receiver/*.net
-!fm_receiver/sim12_full_receiver.net
+fm_receiver/simulations/*.net
+!fm_receiver/simulations/sim12_full_receiver.net
+# superseded early SPICE decks (kept locally)
+fm_receiver/simulations/*.cir
 
 # --- backups made during the design work ---
 *.bak
@@ -26,8 +28,8 @@ pcb/.history/
 *.kicad_prl
 fp-info-cache
 *-backups/
-pcb/gen/gerbers_jlc/
-pcb/gen/micro_test.*
+pcb/gen/
+pcb/fabrication/gerbers_jlc/
 
 # --- not for publication ---
 coppens_reference_template.pdf
