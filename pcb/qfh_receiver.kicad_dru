@@ -1,0 +1,18 @@
+(version 1)
+
+# Custom DRC rules for the QFH 137.9 MHz receiver.
+#
+# Edge-launch SMA connectors (J1 antenna, J2 BPF/LNA test seam) are made to straddle the
+# board edge: the shell pads wrap the edge and the centre pad meets the launch trace right
+# at it. The stock Amphenol 132289 footprint therefore reports edge-clearance errors by
+# construction, and so do the two tracks that land on those pads. Relaxing the constraint
+# only inside the two small rule areas keeps the check live everywhere else on the board.
+
+(rule "SMA edge launch - pads may reach the board edge"
+	(condition "A.insideArea('sma_launch')")
+	(constraint edge_clearance (min -1mm)))
+
+(rule "SMA edge launch - launch tracks may reach the board edge"
+	(layer outer)
+	(condition "A.Type == 'Track' && A.insideArea('sma_launch')")
+	(constraint edge_clearance (min -1mm)))

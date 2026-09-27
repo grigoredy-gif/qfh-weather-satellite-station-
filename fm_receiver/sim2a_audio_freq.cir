@@ -1,0 +1,79 @@
+* SIM 2a - audio LPF + scaling chain: FREQUENCY RESPONSE (.ac)
+* ---------------------------------------------------------------------------
+* Chain (all discrete, no ICs):
+*   detector-equivalent source (0.23 V pedestal, 150k source impedance)
+*   -> Q1a/Q1b PNP DARLINGTON follower (level shift +1.3 V; a single PNP's
+*      base current through the 150k source would shift the detector's
+*      operating point by ~0.3 V - the Darlington cuts that to ~2 mV)
+*   -> Sallen-Key LP stage 1, NPN follower as unity-gain element (Q=0.55)
+*   -> Sallen-Key LP stage 2, PNP follower (Q=1.29)
+*      (together: 4th-order Butterworth, fc ~ 5.4 kHz; NPN/PNP alternation
+*       cancels the 0.65 V shifts, keeping every stage biased)
+*   -> Q4 common-emitter gain stage, G ~ 25 (150R unbypassed degeneration)
+*   -> AC coupling -> 47k/47k mid-bias at 1.65 V from the 3.3 V rail = "adc"
+*
+* Why active RC and not passive: three cascaded passive RC poles at a
+* system fc of 6 kHz only reach ~20 dB at 22 kHz (Nyquist for the 44.1 kHz
+* ADC sampling) - no resonant poles, soft skirts. The 4th-order Butterworth
+* reaches ~-49 dB there with <1 dB passband ripple, using two transistors.
+*
+* PASS: |V(adc)| flat within 1 dB over 400-4400 Hz, >=30 dB down at 22 kHz
+* (expect ~-50 dB), and the 12.9 MHz IF ripple region annihilated (>100 dB).
+* ---------------------------------------------------------------------------
+
+* --- supplies ---
+VCC vcc 0 6
+VREF adcref 0 3.3
+
+* --- detector equivalent: DC pedestal + audio + AC probe, 150k source Z ---
+V1 src 0 SINE(0.23 0.03 2400) AC 1
+RS src in 150k
+
+* --- Q1a/Q1b: PNP Darlington emitter follower (level shift UP ~1.3 V) ---
+Q1a 0 in b1 QP
+Q1b 0 b1 ef1 QP
+RE1 vcc ef1 10k
+
+* --- Sallen-Key stage 1 (NPN follower), Q=0.55, fc ~ 5.3 kHz ---
+RA1 ef1 x1 10k
+RB1 x1 y1 10k
+C1 x1 ef2 3.3n
+C2 y1 0 2.7n
+Q2 vcc y1 ef2 QN
+RE2 ef2 0 4.7k
+
+* --- Sallen-Key stage 2 (PNP follower), Q=1.29, fc ~ 5.5 kHz ---
+RA2 ef2 x2 7.5k
+RB2 x2 y2 7.5k
+C3 x2 ef3 10n
+C4 y2 0 1.5n
+Q3 0 y2 ef3 QP
+RE3 vcc ef3 10k
+
+* --- Q4: common-emitter gain stage, G = Rc(loaded)/(re + 150) ~ 25 ---
+RB4 ef3 y4 1k
+Q4 ce y4 e4 QN
+RC4 vcc ce 10k
+RE4A e4 e4b 150
+RE4B e4b 0 2.7k
+CE4 e4b 0 100u
+
+* --- AC coupling + ADC mid-scale bias (1.65 V) + last anti-alias pole ---
+CC1 ce adc 1u
+RD1 adcref adc 47k
+RD2 adc 0 47k
+CADC adc 0 470p
+
+* --- generic audio transistor models (self-contained, 2N3904/06-class) ---
+.model QN NPN(IS=1e-14 BF=200 VAF=100 CJE=8p CJC=4p TF=350p RB=10)
+.model QP PNP(IS=1e-14 BF=200 VAF=100 CJE=10p CJC=6p TF=400p RB=10)
+
+* --- analysis ---
+.options plotwinsize=0
+.ac dec 200 10 100Meg
+.meas AC Gmid FIND mag(V(adc)) AT 2400
+.meas AC G400 FIND mag(V(adc)) AT 400
+.meas AC G4k4 FIND mag(V(adc)) AT 4400
+.meas AC G22k FIND mag(V(adc)) AT 22000
+.meas AC G12M9 FIND mag(V(adc)) AT 12.9Meg
+.end

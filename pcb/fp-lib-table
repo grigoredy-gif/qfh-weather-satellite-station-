@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "qfh_receiver")(type "KiCad")(uri "${KIPRJMOD}/qfh_receiver.pretty")(options "")(descr "QFH receiver hand-wound coil footprints"))
+)

@@ -1,0 +1,146 @@
+(footprint "AIRCOIL_5MM"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Air-core coil wound from 0.8mm enamelled wire on a 5mm mandrel: 5 turns = 82nH (input BPF), 7 turns = 150nH (x5 multiplier tanks). Legs 8-10mm so the coil can be slid/stretched during alignment. INCLUDES a copper-pour keepout on both layers: a ground plane under an air coil kills its Q and shifts its inductance. Place coupled pairs about one coil diameter apart - the spacing IS the coupling (k~0.03); route nothing between them.")
+	(tags "aircoil inductor hand-wound RF")
+	(property "Reference" "L**"
+		(at 0 -5.6 0)
+		(layer "F.SilkS")
+		(uuid "6783dca6-f9a9-4fb6-8e4f-2d632256e25f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "AIR 5mm"
+		(at 0 5.6 0)
+		(layer "F.Fab")
+		(uuid "517a68e2-65dc-4b15-871a-d6572bb2528a")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "10da4914-8192-47d7-86e9-5b25bf09f92c")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "442129b2-8bb7-4272-ae59-8f712177a992")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr through_hole)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_circle
+		(center 0 0)
+		(end 2.2 0)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "0ef4406c-f2a8-43a6-9c3a-c7427a56da23")
+	)
+	(fp_rect
+		(start -4.9 -4.9)
+		(end 4.9 4.9)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "cbe3fd5b-3a4a-4c53-9b63-bb60d1097c73")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 3 0)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "9e80fbcf-ec02-4644-8202-8ef1257de1df")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "f957b74b-9aa9-48a0-9358-1248a562cc2a")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" thru_hole circle
+		(at -3.5 0)
+		(size 2 2)
+		(drill 1.1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "3fa8ab53-c84a-49ed-ac4c-a586c94f5901")
+	)
+	(pad "2" thru_hole circle
+		(at 3.5 0)
+		(size 2 2)
+		(drill 1.1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "f1cb2263-77bb-4116-9dd2-3174696f0cd4")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu")
+		(uuid "53e222f8-9f9e-46dd-adbf-b6e025b6cd0d")
+		(name "aircoil_keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy -8 -8) (xy 8 -8) (xy 8 8) (xy -8 8)
+			)
+		)
+	)
+	(embedded_fonts no)
+)

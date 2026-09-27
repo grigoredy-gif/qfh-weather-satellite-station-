@@ -1,0 +1,8 @@
+# MATLAB junk
+*.asv
+*.m~
+slprj/
+
+# 4nec2 simulation outputs (regenerable)
+*.out
+*.log

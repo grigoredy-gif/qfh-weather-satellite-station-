@@ -1,0 +1,171 @@
+(footprint "TOROID_T37-6_UNIVERSAL"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "T37-6 toroid, 27 turns of 0.4mm enamelled wire, mounted ON EDGE (vertical). One universal footprint for all 7 receiver toroids: pins 1=cold end, 2=tap (13/27, leave empty for plain coils), 3=hot end, 4/5=coupling link (3 turns, leave empty except the two IF-filter tanks). Wound body ~10.5mm dia x 4mm thick; secure with nylon M3 screw through the core or a dab of RTV silicone - never hot glue.")
+	(tags "toroid inductor hand-wound T37-6 tapped")
+	(property "Reference" "L**"
+		(at 0 -4.6 0)
+		(layer "F.SilkS")
+		(uuid "3fc248d4-a663-4c84-83ce-8c94959cf94f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "T37-6 27t"
+		(at 0 5.8 0)
+		(layer "F.Fab")
+		(uuid "059b1cbd-3b8d-4ddb-940e-65bade43bb15")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d05487cd-c507-471b-a0ff-3bc348bcdfa7")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "21ba88ce-9e54-453d-be80-4a7f42a29212")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr through_hole)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -5.5 -2.5)
+		(end -4.5 -2.5)
+		(stroke
+			(width 0.3)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "4a6f2a41-6f05-4f4d-855d-397dee307864")
+	)
+	(fp_rect
+		(start -5.5 -2.5)
+		(end 5.5 1.8)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "413aa88c-bb4d-4992-a57c-f8d595559b0d")
+	)
+	(fp_rect
+		(start -5.9 -4)
+		(end 5.9 5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "700aaf05-9b5a-4830-bdd4-d95b6e71ead0")
+	)
+	(fp_rect
+		(start -5.5 -2.5)
+		(end 5.5 2.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "aaa03ba8-eb0e-409c-b062-d63620e0695f")
+	)
+	(fp_text user "1"
+		(at -2.54 -1.6 0)
+		(layer "F.SilkS")
+		(uuid "d89bbff4-2fb8-4961-8ae6-53cfa203c4cc")
+		(effects
+			(font
+				(size 0.85 0.85)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_text user "3"
+		(at 2.54 -1.6 0)
+		(layer "F.SilkS")
+		(uuid "b785d3e7-a3fc-4861-8236-6962e29e1114")
+		(effects
+			(font
+				(size 0.85 0.85)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "fedfd2fd-27f6-4330-9f3c-66bb05f37c1b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" thru_hole circle
+		(at -2.54 0)
+		(size 1.8 1.8)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "0d8e8e87-640f-4434-8222-75fe59a9e18d")
+	)
+	(pad "2" thru_hole circle
+		(at 0 0)
+		(size 1.8 1.8)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "1a3ddee1-a9ce-4548-910e-7c53eeaea0c1")
+	)
+	(pad "3" thru_hole circle
+		(at 2.54 0)
+		(size 1.8 1.8)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "6eee75d5-2279-44a2-8cd0-ed7baa322f95")
+	)
+	(pad "4" thru_hole circle
+		(at -1.27 3.2)
+		(size 1.8 1.8)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "971d5e73-f0af-4402-b942-441816c65a0c")
+	)
+	(pad "5" thru_hole circle
+		(at 1.27 3.2)
+		(size 1.8 1.8)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "c1023eaf-e085-4a71-ad69-f5bea618831a")
+	)
+	(embedded_fonts no)
+)
