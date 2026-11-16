@@ -309,7 +309,14 @@ The board, each step in its own run of the same Python, KiCad closed:
 | `gen/rx2_fab.py`, `gen/jlc_pads.json` | write `fabrication/`. The second file holds the pad positions of JLCPCB's own footprints (from EasyEDA's public part data); the places and angles in the placement file are worked out from it and checked. The script also counts the holes in the drill files against the board |
 | `rx2_receiver.ses`, `rx2_receiver_routed.ses`, `gnd_vias.json`, `drc.json` | routing result, plan of the ground vias, last rules-check report |
 
-How version 2 was made and who did what:
-[`../fm_receiver_v2/README.md`](../fm_receiver_v2/README.md).
+## Attribution
+
+This board is my project: I set the requirements and approved every change,
+and I made the decisions about the board and the order (the SMA jack, the
+mounting holes, the antenna track on the bottom side, and which order files
+to use). The scripts in `gen/` that build and check the schematic and the
+board were written with Claude (Anthropic) as an AI assistant, and the
+reviews in the table at the top were done by AI agents. How version 2 as a
+whole was made: [`../fm_receiver_v2/README.md`](../fm_receiver_v2/README.md).
 
 Edy Grigore

@@ -200,8 +200,9 @@ design authority for the PCB.
 ## License / attribution
 
 This is my project. I set the goals and the requirements (a fully discrete
-receiver with no ICs in the signal path), I made or approved every design
-decision, and the building and bench testing are mine. It builds on
+receiver with no ICs in the signal path), and I made or approved every
+design decision. Version 1 was never built, so none of it has been tested on
+a bench. It builds on
 well-documented amateur-radio practice; the references are in the design log.
 
 I used Claude (Anthropic) as an AI assistant. It drafted most of the LTspice

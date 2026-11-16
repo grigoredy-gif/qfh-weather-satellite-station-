@@ -1341,7 +1341,8 @@ IF, fit smaller values for `Ct1b` to `Ct4b`.
 ## Attribution
 
 I set the goal for version 2 (JLC-assembled, under €50, nothing to tune) and
-approved the plan. The architecture and the simulations are worked out with
-Claude (Anthropic) as an AI assistant, and I review each step.
+approved the plan. The architecture, the simulations, the schematic and the
+board (with the scripts in `../pcb_v2/gen`) are worked out with Claude
+(Anthropic) as an AI assistant, and I review each step.
 
 Edy Grigore

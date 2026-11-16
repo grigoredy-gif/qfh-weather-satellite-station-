@@ -1317,16 +1317,17 @@ available, because it is a copy of an already-validated block.
   pair-programmer throughout this receiver project. Schematics and
   measurement decks were drafted step by step from requirements we
   developed together, and every claim was checked against my own simulation
-  runs (and, later, the bench). Design decisions and results are verified,
-  not assumed.
+  runs. Version 1 was never built, so nothing was checked on a bench.
+  Design decisions and results are verified in simulation, not assumed.
 - Slope-detector theory and the max-slope detuning point f₀/(2√2·Q): standard
   resonance-curve analysis, see ARRL Handbook FM detection chapter.
 
 ## License / attribution
 
 This is my project. I set the goals and the requirements (a fully discrete
-receiver with no ICs in the signal path), I made or approved every design
-decision, and the building and bench testing are mine. It builds on
+receiver with no ICs in the signal path), and I made or approved every
+design decision. Version 1 was never built, so none of it has been tested on
+a bench. It builds on
 well-documented amateur-radio practice (see the References above). The simulation files are
 plain LTspice `.asc` schematics. Each sheet has a short header (what it tests, the
 result, where it is explained), and the longer notes I first wrote on the

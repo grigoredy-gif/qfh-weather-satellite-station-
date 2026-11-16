@@ -148,8 +148,9 @@ lower still. If that happens on the bench, smaller capacitors (`Ct1b` to
 
 ## Attribution
 
-I set the goal for version 2 and approved the plan. The architecture and the
-simulations are worked out with Claude (Anthropic) as an AI assistant, and I
-review each step.
+I set the goal for version 2 and approved the plan. The architecture, the
+simulations, the schematic and the board (with the scripts in
+[`../pcb_v2/gen`](../pcb_v2/gen)) are worked out with Claude (Anthropic) as an
+AI assistant, and I review each step.
 
 Edy Grigore

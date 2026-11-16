@@ -375,11 +375,10 @@ purpose, so the board house may ask about copper at the edge.
 
 This board is my project: I set the requirements and the layout rules, and I
 approved every change. If I build it, I will assemble, align and measure it
-myself. I used
-Claude (Anthropic) as an AI assistant for the KiCad work: following my
-requirements and reviews, it did most of the placement and routing by script,
-ran the design checks and did independent review passes. The full step-by-step
-record is in [`DESIGN_LOG.md`](DESIGN_LOG.md). The motivation for the project is
-in the [receiver README](../fm_receiver/README.md).
+myself. I used Claude (Anthropic) as an AI assistant for the KiCad work:
+following my requirements and reviews, it did most of the placement and
+routing by script, ran the design checks and did independent review passes.
+The full step-by-step record is in [`DESIGN_LOG.md`](DESIGN_LOG.md). The
+motivation for the project is in the [receiver README](../fm_receiver/README.md).
 
 Edy Grigore
