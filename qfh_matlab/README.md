@@ -24,7 +24,8 @@ antenna and my own receiver for the 137 MHz weather satellites.
 For the receiver I wanted to do everything analog, without any integrated
 circuits in the signal path, so that I have to understand every stage at
 component level. This toolchain is the antenna half of the project. The
-receiver half is in [`../fm_receiver`](../fm_receiver).
+receiver half is in [`../fm_receiver_v2`](../fm_receiver_v2) (version 1 is in
+[`../fm_receiver`](../fm_receiver)).
 
 The plan had to change along the way. The NOAA satellites whose analog APT
 signal my receiver was designed for were switched off in 2025, and the
@@ -130,6 +131,40 @@ This way you can choose either convention, and `qfh_selftest` still
 checks the port against the website values with `freq_cal = 1.0`. For a
 real build, the final trim should be based on a VNA measurement at the
 feedpoint.
+
+## The built antenna: simulation and measurement
+
+I built the antenna for 137.5 MHz on a PVC mast from these drawings and
+measured it with a miniVNA Tiny.
+
+| Simulated (4nec2) | Measured (miniVNA Tiny) |
+|---|---|
+| ![Simulated SWR of the QFH model](img/antenna_swr_simulated_4nec2.png) | ![Measured S11 of the built QFH](img/antenna_s11_measured_2026-07-26.jpg) |
+
+*Left, simulation: 4nec2's SWR (top) and reflection coefficient (bottom) of
+the model written by `qfh_main` for 137.5 MHz with `freq_cal = 1.0223`, from
+132.5 to 142.5 MHz. The SWR is about 1.05 at 137.5 MHz. Right, measurement
+(26 July 2026): the S11 of the built antenna in dB (blue) and its phase (red)
+from 100 to 200 MHz, as the miniVNA software saved it. The best match is about
+−15 dB near 133 MHz; at 137.5 MHz it is about −10 dB.*
+
+So the built antenna resonates about 3 % low. Two things to know when reading
+the measurement:
+
+- It was taken at the end of the feed cable, not at the feedpoint. The cable's
+  loss counts twice in an S11 measurement, so the dip looks a little better
+  than the antenna itself is.
+- I have not settled the cause of the 3 %. It is close to the 2.2 % offset of
+  the uncalibrated formulas (above), and the next step is a measurement at the
+  feedpoint before I trim anything.
+
+For reception, −10 dB means that about 10 % of the power is reflected, a loss
+of about 0.5 dB. That is acceptable, but cheap to improve.
+
+![Simulated far-field pattern in 4nec2](img/antenna_pattern_simulated_4nec2.png)
+
+*Simulation: 4nec2's 3D view of the far-field pattern over the antenna wires
+(red and yellow = most gain). The main lobe points straight up.*
 
 ## Usage
 

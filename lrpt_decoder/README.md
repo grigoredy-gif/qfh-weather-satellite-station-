@@ -36,9 +36,10 @@ the same answers:
 - **My location was bad for reception, and the ADALM-Pluto is not ideal for
   this use.** Its input is unfiltered, so FM broadcast (88–108 MHz) overloads
   it and creates intermodulation products, and without an LNA it is quite deaf
-  at 137 MHz. The fix is an LNA plus a 137 MHz SAW filter in front of it, which
-  is exactly what the input stages of my own receiver do (see
-  [`../fm_receiver/`](../fm_receiver/), SIM 7 and SIM 9).
+  at 137 MHz. The fix is an LNA plus a 137 MHz SAW filter in front of it. The
+  input stages of my own receiver do the same job with tuned circuits (version 1:
+  SIM 7 and SIM 9 in [`../fm_receiver/`](../fm_receiver/); version 2: the front
+  end in [`../fm_receiver_v2/`](../fm_receiver_v2/)).
 - On top of that, N2-3 was reported to have a degraded antenna, so it is a
   weak satellite to start with.
 
