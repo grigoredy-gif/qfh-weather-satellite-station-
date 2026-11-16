@@ -1,0 +1,25 @@
+* RX2 I1 - audio chain, small signal: gain, flatness, cut-off, rejection
+* Tests: the detector is replaced by its equivalent (1.27 V DC behind 27 kohm, with its 470 pF).
+*   Gain from the detector's audio voltage to the ADC pin at 2400 Hz, flatness over the APT band (320 to 4480 Hz),
+*   and how far down 22 kHz, 39.6 kHz (aliases onto 4.5 kHz at 44.1 kHz sampling) and 1.418 MHz (IF ripple) are.
+.include models.lib
+Vcc vcc 0 3.3
+V3 v3ref 0 3.3
+Vdet dets 0 1.27 AC 1
+Rdet dets det 27k
+Cdet det 0 470p
+.include rx2_blk_audio.inc
+.ac dec 100 30 3Meg
+.meas AC g_2400 FIND mag(V(adc)) AT 2400
+.meas AC g_320 FIND mag(V(adc)) AT 320
+.meas AC g_3400 FIND mag(V(adc)) AT 3400
+.meas AC g_6000 FIND mag(V(adc)) AT 6000
+.meas AC g_1000 FIND mag(V(adc)) AT 1000
+.meas AC g_4480 FIND mag(V(adc)) AT 4480
+.meas AC g_max MAX mag(V(adc))
+.meas AC f_3db WHEN mag(V(adc))=g_2400/sqrt(2) FALL=LAST
+.meas AC f_lo3db WHEN mag(V(adc))=g_2400/sqrt(2) RISE=1
+.meas AC g_22k FIND mag(V(adc)) AT 22k
+.meas AC g_39k6 FIND mag(V(adc)) AT 39.6k
+.meas AC g_1M418 FIND mag(V(adc)) AT 1.418Meg
+.end

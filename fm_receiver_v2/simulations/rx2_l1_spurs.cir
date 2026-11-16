@@ -1,0 +1,39 @@
+* RX2 L1 - unwanted responses through the real LO waveform: image, the 137.1 MHz channel, LO harmonics, IF feedthrough
+* Tests: antenna to the second mixer's input with the real 125 MHz chain (crystal current forced at 1.68 mA).
+*   A carrier is put on the antenna at one frequency per step; resp is the 12.9 MHz voltage at the second mixer
+*   per volt of antenna EMF. Step 1 (137.9 MHz) is the wanted response; every other step is compared with it.
+*   Steps: 2 = 137.1 MHz (the other satellite channel; the LO's 150 MHz content converts it to 12.9 MHz),
+*   3 = 112.1 (image), 4 = 112.9 and 5 = 87.1 (LO 100 MHz), 6 = 162.9 (LO 150 MHz), 7 = 162.1 and 8 = 187.9 (LO 175 MHz),
+*   9 = 62.1 and 10 = 87.9 (LO 75 MHz), 11 = 95.0 (nothing expected: the floor of the method),
+*   12 = 12.9 MHz straight in (IF feedthrough), 13 = 131.45 MHz (half-IF response).
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 tolLr=0 tolS=0 xforce=1 pkg=0 voq=0 sd=0
+.step param idx 1 13 1
+.param FIN=table(idx,1,137.9Meg,2,137.1Meg,3,112.1Meg,4,112.9Meg,5,87.1Meg,6,162.9Meg,7,162.1Meg,8,187.9Meg,9,62.1Meg,10,87.9Meg,11,95Meg,12,12.9Meg,13,131.45Meg)
+.param AIN=table(idx,1,30u,2,100u,3,3m,4,3m,5,10m,6,3m,7,3m,8,10m,9,10m,10,10m,11,10m,12,10m,13,100u)
+Vcc vcc 0 {VCC}
+Vs src 0 SINE(0 {AIN} {FIN})
+Rs src ant 50
+Ixf o25b osc25 SINE(0 1.68m 25Meg)
+Vlo lo2s 0 0
+Clo2s lo2s lo2 1n
+Rt5 t5 vcc 1k
+.include rx2_blk_bias.inc
+.include rx2_blk_fe.inc
+.include rx2_blk_mix1.inc
+.include rx2_blk_lo1osc.inc
+.include rx2_blk_lo1mul.inc
+.include rx2_blk_if1.inc
+.include rx2_blk_mix2.inc
+.options plotwinsize=0 method=gear reltol=1e-4
+.tran 0 40u 0 50p
+* reference products for the correlation (a .meas cannot use sin(...time) itself: it gives wrong numbers)
+Bps ps 0 V=V(m2in)*sin(2*pi*12.9Meg*time)
+Bpc pc 0 V=V(m2in)*cos(2*pi*12.9Meg*time)
+.save V(m2in) V(ps) V(pc)
+.meas TRAN s1 AVG V(ps) from 20u to 40u
+.meas TRAN c1 AVG V(pc) from 20u to 40u
+.meas TRAN a129 PARAM 2*sqrt(s1*s1+c1*c1)
+.meas TRAN resp PARAM a129/AIN
+.meas TRAN m2_pp PP V(m2in) from 20u to 40u
+.end

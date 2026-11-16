@@ -1,0 +1,22 @@
+* RX2 I2 - audio chain with the 2400 Hz tone: level at the ADC, distortion, DC level, headroom
+* Tests: 2400 Hz from the detector equivalent at 10.4 mV peak (full APT deviation), then half, twice and four times that.
+*   The ADC pin should sit at 1.25 V and swing about 0.48 V peak to peak, inside the ADC's 0.5 to 2.0 V range.
+.include models.lib
+.step param AIN list 5.2m 10.4m 20.8m 41.6m
+Vcc vcc 0 3.3
+V3 v3ref 0 3.3
+Vdet dets 0 SINE(1.27 {AIN} 2400)
+Rdet dets det 27k
+Cdet det 0 470p
+.include rx2_blk_audio.inc
+.options plotwinsize=0
+.tran 0 250m 0 5u
+.save V(adc) V(cg) V(va) I(Rfa1)
+.four 2400 9 20 V(adc)
+.meas TRAN adc_dc AVG V(adc) from 241m to 250m
+.meas TRAN adc_pp PP V(adc) from 241m to 250m
+.meas TRAN adc_min MIN V(adc) from 241m to 250m
+.meas TRAN adc_max MAX V(adc) from 241m to 250m
+.meas TRAN cg_dc AVG V(cg) from 241m to 250m
+.meas TRAN ia AVG I(Rfa1) from 241m to 250m
+.end

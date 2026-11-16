@@ -1,0 +1,25 @@
+* RX2 E2 - 14.31818 MHz crystal oscillator: level and crystal drive power (crystal current forced)
+* Tests: the oscillator with the load of the second mixer's LO port (1 nF into 10 kohm and about 12 pF).
+*   The crystal's motional branch is replaced by a current source; stepping its amplitude gives the series
+*   resistance the oscillator can keep going (rsup). It settles where rsup equals the crystal's resistance
+*   (60 ohm assumed, 80 at worst). lo_pk is then the LO level at the mixer, pxtal60 the power in a 60 ohm crystal.
+.include models.lib
+.param VCC=3.3 xforce=1 fx=14.31818Meg t1m=3u t2m=3u+50/fx
+.step param xi14 list 0.2m 0.4m 0.6m 0.8m 0.9m 1.0m 1.1m 1.2m 1.4m
+Vcc vcc 0 {VCC}
+Ixf2 ob xs2 SINE(0 {xi14} {fx})
+.include rx2_blk_lo2.inc
+* replica of the mixer LO port
+Rbs1x lo2 bs1 1m
+Rbs1 bs1 0 10k
+Cbs1 bs1 0 12p
+.options plotwinsize=0 method=gear
+.tran 0 6.6u 0 100p
+.meas TRAN pabs AVG V(ob,xs2)*I(Ixf2) from {t1m} to {t2m}
+.meas TRAN rsup PARAM 2*pabs/(xi14*xi14)
+.meas TRAN pxtal60 PARAM xi14*xi14*30
+.meas TRAN lo_pp PP V(lo2) from {t1m} to {t2m}
+.meas TRAN lo_pk PARAM lo_pp/2
+.meas TRAN xs_pp PP V(xs2) from {t1m} to {t2m}
+.meas TRAN ie AVG I(Roe) from {t1m} to {t2m}
+.end

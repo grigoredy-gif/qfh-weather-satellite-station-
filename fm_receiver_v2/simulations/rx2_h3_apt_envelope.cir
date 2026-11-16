@@ -1,0 +1,42 @@
+* RX2 H3 - picture test: does the brightness (the amplitude of the 2400 Hz tone) come through unchanged?
+* Tests: an APT picture is the 2400 Hz tone with its amplitude following the image. Here the tone is
+*   amplitude-modulated to 80 % depth by a "video" sine (step 1: 1040 Hz, step 2: 2080 Hz, the finest detail),
+*   and that signal frequency-modulates a 12.9 MHz carrier (peak deviation 17 kHz) into the second mixer.
+*   At the detector output the three lines (2400 Hz, 2400 + video, 2400 - video) are measured by correlation.
+*   For a perfect receiver each side line is 0.40 of the centre line (r_u and r_l). The detector's own 470 pF
+*   gives a little less on the upper line; the audio chain (rx2_i1) is flat within about 1 dB on top of that.
+*   Window: 12.5 ms, a whole number of cycles of every tone.
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 sd=0
+.step param FV list 1040 2080
+.param FC=12.9Meg FS=2400 MU=0.8 DF=17k/(1+MU) A=3m
+Vcc vcc 0 {VCC}
+Bin m2in 0 V=A*sin(2*pi*FC*time+2*pi*DF*(sin(2*pi*FS*time)/(2*pi*FS)+(MU/2)*(sin(2*pi*(FS+FV)*time)/(2*pi*(FS+FV))+sin(2*pi*(FS-FV)*time)/(2*pi*(FS-FV)))))
+Vlo lo2s 0 SINE(0 0.2 14.31818Meg)
+Clo2s lo2s lo2 1n
+.include rx2_blk_mix2.inc
+.include rx2_blk_bias.inc
+.include rx2_blk_if2.inc
+.options plotwinsize=0
+.tran 0 13m 0 2n
+* reference products for the correlation (a .meas cannot use sin(...time) itself: it gives wrong numbers)
+Bsc psc 0 V=V(det)*sin(2*pi*FS*time)
+Bcc pcc 0 V=V(det)*cos(2*pi*FS*time)
+Bsu psu 0 V=V(det)*sin(2*pi*(FS+FV)*time)
+Bcu pcu 0 V=V(det)*cos(2*pi*(FS+FV)*time)
+Bsl psl 0 V=V(det)*sin(2*pi*(FS-FV)*time)
+Bcl pcl 0 V=V(det)*cos(2*pi*(FS-FV)*time)
+.save V(det) V(psc) V(pcc) V(psu) V(pcu) V(psl) V(pcl)
+.meas TRAN vdet_dc AVG V(det) from 0.5m to 13m
+.meas TRAN s_c AVG V(psc) from 0.5m to 13m
+.meas TRAN c_c AVG V(pcc) from 0.5m to 13m
+.meas TRAN s_u AVG V(psu) from 0.5m to 13m
+.meas TRAN c_u AVG V(pcu) from 0.5m to 13m
+.meas TRAN s_l AVG V(psl) from 0.5m to 13m
+.meas TRAN c_l AVG V(pcl) from 0.5m to 13m
+.meas TRAN a_c PARAM 2*sqrt(s_c*s_c+c_c*c_c)
+.meas TRAN a_u PARAM 2*sqrt(s_u*s_u+c_u*c_u)
+.meas TRAN a_l PARAM 2*sqrt(s_l*s_l+c_l*c_l)
+.meas TRAN r_u PARAM a_u/a_c
+.meas TRAN r_l PARAM a_l/a_c
+.end

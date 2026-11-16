@@ -1,0 +1,27 @@
+* RX2 D1 - first-IF strip at 12.9 MHz, small-signal response
+* Tests: gain, centre and width of the four tuned circuits, and the rejection of the second image (15.736 MHz).
+*   Input: 1 uA into T1, as from mixer 1. The second mixer is connected as the load of T4.
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 sd=0
+Vcc vcc 0 {VCC}
+I1 0 t1 AC 1u
+Vlo lo2s 0 0
+Clo2s lo2s lo2 1n
+Rt5 t5 vcc 1k
+* stand-in for the collector of mixer 1 and its pad on T1
+Cmx1 t1 0 2.5p
+.include rx2_blk_bias.inc
+.include rx2_blk_if1.inc
+.include rx2_blk_mix2.inc
+.ac lin 2401 8Meg 20Meg
+.meas AC out_pk MAX mag(V(m2in))
+.meas AC out_fpk WHEN mag(V(m2in))=out_pk
+.meas AC out_flo WHEN mag(V(m2in))=out_pk/sqrt(2) RISE=1
+.meas AC out_fhi WHEN mag(V(m2in))=out_pk/sqrt(2) FALL=last
+.meas AC t1_at FIND mag(V(t1)) AT 12.9Meg
+.meas AC t2_at FIND mag(V(t2)) AT 12.9Meg
+.meas AC t3_at FIND mag(V(t3)) AT 12.9Meg
+.meas AC out_at FIND mag(V(m2in)) AT 12.9Meg
+.meas AC out_img FIND mag(V(m2in)) AT 15.736Meg
+.meas AC out_lo FIND mag(V(m2in)) AT 10.064Meg
+.end

@@ -1,0 +1,47 @@
+* models_slow.lib - SLOW, LOW-GAIN corner of the same parts as models.lib (cheap clones, cold day)
+* Same names as models.lib: QN, QP, QRF, DBAS70, D4148.
+*
+* QN / QP: one third of the current gain, 1.7 to 2 x the transit time, more capacitance and base resistance
+.model QN NPN(IS=1E-14 VAF=80 BF=100 IKF=0.3 XTB=1.5 BR=4 CJC=5E-12 CJE=10E-12 RB=40 RC=0.5 RE=0.2 TR=250E-9 TF=600E-12 ITF=1 VTF=2 XTF=3)
+.model QP PNP(IS=1E-14 VAF=80 BF=80 IKF=0.3 XTB=1.5 BR=4 CJC=6E-12 CJE=12E-12 RB=40 RC=0.5 RE=0.2 TR=250E-9 TF=700E-12 ITF=1 VTF=2 XTF=3)
+* QRF: slow corner of the 2SC3356, fT about 3 GHz (a weak clone), lower gain, more capacitance
+.model QRF NPN(IS=8E-16 BF=80 VAF=30 IKF=0.06 RB=10 RE=0.5 RC=4 CJE=2.2p VJE=0.8 MJE=0.4 CJC=1.1p VJC=0.6 MJC=0.4 XCJC=0.5 TF=45p XTF=3 VTF=5 ITF=0.08 TR=1.5n)
+*
+.model DBAS70 D(Is=85n N=1.445 Rs=29 Cjo=1.95p Vj=2.5 M=0.37 Eg=0.69 Xti=2 Bv=70 Ibv=10u)
+.model D4148 D(Is=2.52n Rs=0.568 N=1.752 Cjo=4p M=0.333 Vj=0.7 Bv=100 Ibv=1u Tt=11.5n)
+* QIF: slow corner of the S9018 (fT about 600 MHz, 25 % more capacitance)
+.model QIF NPN(IS=1E-15 BF=60 VAF=40 IKF=0.04 RB=35 RE=0.8 RC=6 CJE=3.6p VJE=0.75 MJE=0.35 CJC=2.5p VJC=0.6 MJC=0.35 XCJC=0.5 TF=250p XTF=2 VTF=4 ITF=0.05 TR=2n)
+.model DBAV99 D(Is=2.5n N=1.75 Rs=0.6 Cjo=1.5p M=0.33 Vj=0.7 Bv=100 Ibv=1u Tt=4n)
+* 25 MHz crystal (JLC C9006 class: 3225, CL 12 pF, ESR 40 ohm typ). Rpar=1e15 switches off LTspice's hidden inductor damping.
+* FORCE=1 opens the motional branch, so a deck can force the crystal current with its own current source (see rx2_b1).
+.subckt XTAL25 a b params: FORCE=0 RM=40
+Lm a m 8.1088m Rpar=1e15
+Cm m n 5f
+Rm n b {RM+1e12*FORCE}
+C0 a b 1.5p
+.ends
+* 14.31818 MHz crystal (JLC C34748 class: 3225, CL 20 pF, ESR 60 ohm assumed, 80 at worst). Same FORCE switch as XTAL25.
+.subckt XTAL14 a b params: FORCE=0 RM=60
+Lm a m 15.4499m Rpar=1e15
+Cm m n 8f
+Rm n b {RM+1e12*FORCE}
+C0 a b 2.5p
+.ends
+* SOT-23 package between a transistor's die (dc db de) and its pads (pc pb pe): lead inductances and pin-to-pin
+* capacitances. Estimates for a small RF transistor in SOT-23, not vendor data. PKG=0 switches the package off
+* (1 fH leads, no capacitance); the VHF blocks pass the deck's parameter pkg.
+.subckt SOT23X pc pb pe dc db de params: PKG=1
+Lpb pb db {1.3n*PKG+1f}
+Lpe pe de {1.3n*PKG+1f}
+Lpc pc dc {0.5n*PKG+1f}
+Cpbe pb pe {0.08p*PKG}
+Cpce pc pe {0.16p*PKG}
+Cpcb pc pb {0.07p*PKG}
+.ends
+* Part tolerances. The blocks write tolv(value, tolerance) for a part with a relative tolerance and strv(x) for a
+* spread of +-x (small capacitors, strays). The deck's parameter sd chooses what they do:
+*   sd = 0   every part is drawn at random inside its tolerance (Monte-Carlo, a new draw per run)
+*   sd = +1  every part sits at the top of its tolerance; sd = -1 at the bottom (all parts off the same way,
+*            as when a whole reel is off in one direction)
+.func tolv(x,t) {x*(1+t*sd)+(mc(x,t)-x)*(1-abs(sd))}
+.func strv(x) {x*sd+flat(x)*(1-abs(sd))}

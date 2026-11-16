@@ -1,0 +1,17 @@
+* RX2 J2 - 3.3 V regulator: how much ripple gets through (small signal, 40 mA load)
+* Tests: step 1 puts 1 V of AC on the 5V pin, step 2 puts 1 V of AC on the 3V3 pin (the reference).
+*   The results are the ripple on the receiver rail in dB relative to the ripple at that pin.
+.include models.lib
+.step param sel list 0 1
+.param a5=1-sel a3=sel
+V5 v5 0 4.7 AC {a5}
+V3 v3ref 0 3.3 AC {a3}
+.include rx2_blk_reg.inc
+Rload vcc 0 82
+.ac dec 20 10 10Meg
+.meas AC r_100 FIND mag(V(vcc)) AT 100
+.meas AC r_2k4 FIND mag(V(vcc)) AT 2400
+.meas AC r_20k FIND mag(V(vcc)) AT 20k
+.meas AC r_1Meg FIND mag(V(vcc)) AT 1Meg
+.meas AC r_max MAX mag(V(vcc))
+.end

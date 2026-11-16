@@ -1,0 +1,34 @@
+* RX2 P2 - second-IF strip: how much stray coupling from its output back to its input does it take to oscillate?
+* Tests: the 1.418 MHz strip with the second mixer connected (no signal, no LO). A short current pulse into T5
+*   at 1 us starts a ring-down. One stray coupling is added per step:
+*   c25 = stray capacitance from c2 (the pump driver's 1.65 V square wave) to t5 (T5): 0, 0.002, 0.004, 0.005,
+*         0.007, 0.01 pF (steps 1 to 6);
+*   c65 = stray capacitance from t6 (T6) to t5 (T5): 0.3, 1, 2, 3 pF (steps 7 to 10);
+*   km  = magnetic coupling factor between inductors L5 and L6: -0.002, +-0.005, +-0.007, +0.01 (steps 11 to 16).
+*   A stable strip rings down: c2_c and t5_c (250 to 299 us) go to zero. An unstable one ends as a full
+*   square wave at c2 (about 1.65 V peak to peak).
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 sd=0
+.step param idx 1 16 1
+.param c25=table(idx,1,0,2,0.002p,3,0.004p,4,0.005p,5,0.007p,6,0.01p,7,0,8,0,9,0,10,0,11,0,12,0,13,0,14,0,15,0,16,0)
+.param c65=table(idx,1,0,2,0,3,0,4,0,5,0,6,0,7,0.3p,8,1p,9,2p,10,3p,11,0,12,0,13,0,14,0,15,0,16,0)
+.param km=table(idx,1,0,2,0,3,0,4,0,5,0,6,0,7,0,8,0,9,0,10,0,11,-0.002,12,0.005,13,-0.005,14,0.007,15,-0.007,16,0.01)
+Vcc vcc 0 {VCC}
+Vin m2in 0 0
+Vlo lo2s 0 0
+Clo2s lo2s lo2 1n
+.include rx2_blk_bias.inc
+.include rx2_blk_mix2.inc
+.include rx2_blk_if2.inc
+Cstray25 c2 t5 {c25+1e-20}
+Cstray65 t6 t5 {c65+1e-20}
+Kstray56 L5 L6 {km}
+Ikick 0 t5 PULSE(0 0.2u 1u 50n 50n 250n)
+.options plotwinsize=0
+.tran 0 300u 0 10n
+.save V(c2) V(t5) V(t6) V(det)
+.meas TRAN t5_a PP V(t5) from 2u to 10u
+.meas TRAN t5_c PP V(t5) from 250u to 299u
+.meas TRAN c2_a PP V(c2) from 2u to 10u
+.meas TRAN c2_c PP V(c2) from 250u to 299u
+.end

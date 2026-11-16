@@ -1,0 +1,40 @@
+* RX2 B2 - whole 125 MHz chain with the crystal current forced: oscillator, follower, squarer, tuned circuits, mixer 1 as load
+* Tests: the crystal's motional branch is replaced by a 25 MHz current source (a crystal's current is a pure sine).
+*   Stepping its amplitude gives, for each amplitude, the series resistance the oscillator can keep going (rsup).
+*   The oscillator settles where rsup equals the crystal's resistance (about 40 ohm, 50 at worst).
+*   The same run gives the 25 MHz sine at the squarer (vs_pk) and the harmonic table of the LO at the mixer (V(lo1)):
+*   line 5 is the wanted 125 MHz, lines 4 and 6 are the unwanted 100 and 150 MHz.
+*   Timing: the squarer bases need about 7 us to settle (10 nF with 680 ohm), and the 100 and 150 MHz content
+*   depends on that balance. The first 40 us are therefore not saved; LTspice counts the saved time from 0,
+*   so the measurements run from 0 to 2 us.
+*   voq = an offset voltage between the two squarer transistors (0 nominally; rx2_b4 draws it at random).
+*   pkg = 1 puts the SOT-23 package model around the VHF transistors (see rx2_m1).
+
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 tolLr=0 tolS=0 xforce=1 pkg=0 voq=0 sd=0
+.step param xi25 list 0.8m 1.4m 1.6m 1.7m 1.8m 2.0m
+Vcc vcc 0 {VCC}
+Vin m1in 0 0
+Rt1 t1 vcc 1k
+Ixf o25b osc25 SINE(0 {xi25} 25Meg)
+.include rx2_blk_bias.inc
+.include rx2_blk_lo1osc.inc
+.include rx2_blk_lo1mul.inc
+.include rx2_blk_mix1.inc
+.options plotwinsize=0 method=gear
+.tran 0 42u 40u 25p
+.save V(lo1) V(osc25) V(o25b) V(bq1) V(bq2) V(bxa) V(ta) V(eq) I(Ixf) I(Rqe) I(Ro25e) I(Rfe) I(Vcc)
+.four 25Meg 9 50 V(lo1)
+.four 25Meg 9 50 V(osc25)
+.meas TRAN pabs AVG V(o25b,osc25)*I(Ixf) from 0 to 2u
+.meas TRAN rsup PARAM 2*pabs/(xi25*xi25)
+.meas TRAN pxtal40 PARAM xi25*xi25*20
+.meas TRAN vs_pp PP V(osc25) from 0 to 2u
+.meas TRAN bq_pp PP V(bq1) from 0 to 2u
+.meas TRAN lo_pp PP V(lo1) from 0 to 2u
+.meas TRAN bx_pp PP V(bxa) from 0 to 2u
+.meas TRAN iq AVG I(Rqe) from 0 to 2u
+.meas TRAN io AVG I(Ro25e) from 0 to 2u
+.meas TRAN if AVG I(Rfe) from 0 to 2u
+.meas TRAN icc AVG -I(Vcc) from 0 to 2u
+.end

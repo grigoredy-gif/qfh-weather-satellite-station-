@@ -1,0 +1,28 @@
+* RX2 N1 - strong input: what happens if the Pluto is connected with too little attenuation?
+* Tests: a 137.9 MHz carrier straight into the antenna input at -27, -7 and +7 dBm (+7 dBm is about the most
+*   an ADALM-Pluto can give, with no attenuator at all). Checks the stress on the LNA transistor:
+*   reverse base-emitter voltage (limit 3 V for a 2SC3356), collector current (limit 100 mA) and its power.
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 tolLr=0 tolS=0 pkg=0 sd=0
+.step param AIN list 28.3m 0.283 1.414
+Vcc vcc 0 {VCC}
+Vs src 0 SINE(0 {AIN} 137.9Meg)
+Rs src ant 50
+Vlo1 lo1 0 0
+Rt1 t1 vcc 1k
+.include rx2_blk_bias.inc
+.include rx2_blk_fe.inc
+.include rx2_blk_mix1.inc
+.options plotwinsize=0 method=gear
+.tran 0 1u 0 20p
+.save V(ant) V(lb) V(le) V(lc) V(m1in) Ic(Ql) Ib(Ql) I(Desd1) I(Desd2) V(bx) V(ex1)
+.meas TRAN ant_pk MAX V(ant) from 0.5u to 1u
+.meas TRAN vbe_min MIN V(lb,le) from 0.5u to 1u
+.meas TRAN ic_avg AVG Ic(Ql) from 0.5u to 1u
+.meas TRAN ic_max MAX Ic(Ql) from 0.5u to 1u
+.meas TRAN ib_max MAX Ib(Ql) from 0.5u to 1u
+.meas TRAN p_lna AVG V(lc,le)*Ic(Ql) from 0.5u to 1u
+.meas TRAN id_max MAX I(Desd1) from 0.5u to 1u
+.meas TRAN m1in_pk MAX V(m1in) from 0.5u to 1u
+.meas TRAN vbe2_min MIN V(bx,ex1) from 0.5u to 1u
+.end

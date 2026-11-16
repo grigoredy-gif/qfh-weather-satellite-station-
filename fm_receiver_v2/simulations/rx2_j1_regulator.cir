@@ -1,0 +1,29 @@
+* RX2 J1 - 3.3 V regulator: start-up, load step, input step, current limit
+* Tests: 5V pin and 3V3 pin come up at t=0 (0.2 ms rise). Load: 82 ohm (40 mA) plus steps:
+*   at 200 ms the load takes 15 mA more for 5 ms; at 215 ms the 5 V input drops by 0.5 V for 5 ms;
+*   at 230 ms the output is shorted through 1 ohm for 5 ms (current-limit check).
+.include models.lib
+.param V5=4.7
+V5 v5 0 PWL(0 0 0.2m {V5} 215m {V5} 215.01m {V5-0.5} 220m {V5-0.5} 220.01m {V5})
+V3 v3ref 0 PWL(0 0 0.2m 3.3)
+.include rx2_blk_reg.inc
+Rload vcc 0 82
+Istep vcc 0 PULSE(0 15m 200m 1u 1u 5m 1)
+Sshort vcc 0 sc 0 SWS
+Vsc sc 0 PULSE(0 1 230m 1u 1u 5m 1)
+.model SWS SW(Ron=1 Roff=1G Vt=0.5)
+.options plotwinsize=0
+.tran 0 260m 0 5u
+.meas TRAN v_nom FIND V(vcc) AT 199.9m
+.meas TRAN v_step_min MIN V(vcc) from 200m to 205m
+.meas TRAN v_step_end FIND V(vcc) AT 204.9m
+.meas TRAN v_after_max MAX V(vcc) from 205m to 210m
+.meas TRAN v_line_min MIN V(vcc) from 215m to 220m
+.meas TRAN v_line_end FIND V(vcc) AT 219.9m
+.meas TRAN v_line_max MAX V(vcc) from 220m to 225m
+.meas TRAN i_short AVG I(Rrs) from 232m to 235m
+.meas TRAN v_recov FIND V(vcc) AT 259.9m
+.meas TRAN i_in AVG I(Rrs) from 190m to 199.9m
+.meas TRAN t_up WHEN V(vcc)=3.2 RISE=1
+.meas TRAN v_up_max MAX V(vcc) from 0 to 199m
+.end

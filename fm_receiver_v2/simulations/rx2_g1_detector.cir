@@ -1,0 +1,37 @@
+* RX2 G1 - pump driver + charge-pump FM detector at the second IF (1.418 MHz)
+* Tests: audio level and distortion for +-17 kHz FM with a 2400 Hz tone, against drive level and supply,
+*        and the static slope (two unmodulated carriers 34 kHz apart).
+* How it works: the emitter-coupled pair C turns the IF into a square wave of fixed height (tail current x Rcc).
+*   On every rising edge C1 pushes one fixed packet of charge through Q3 into RL; D1 refills C1 on the falling edge.
+*   Average current = packet x frequency, so V(det) follows the frequency. There is no tuned circuit.
+* Run: open in LTspice and press Run, or  LTspice.exe -b rx2_g1_detector.cir
+.include models.lib
+* run table:      1      2      3      4      5      6           7
+*   A   (V pk)    0.1    0.3    1.0    0.3    0.3    0.3         0.3
+*   VCC (V)       3.3    3.3    3.3    3.0    3.6    3.3         3.3
+*   carrier       f0     f0     f0     f0     f0     f0-17 kHz   f0+17 kHz
+*   FM            on     on     on     on     on     off         off
+.step param run 1 7 1
+.param A=table(run,1,0.1,2,0.3,3,1,4,0.3,5,0.3,6,0.3,7,0.3)
+.param VCC=table(run,1,3.3,2,3.3,3,3.3,4,3.0,5,3.6,6,3.3,7,3.3)
+.param FC=table(run,1,1.41818Meg,2,1.41818Meg,3,1.41818Meg,4,1.41818Meg,5,1.41818Meg,6,1.40118Meg,7,1.43518Meg)
+.param MI=table(run,1,7.0833,2,7.0833,3,7.0833,4,7.0833,5,7.0833,6,0,7,0)
+Vcc vcc 0 {VCC}
+* FM test signal: modulation index = 17 kHz / 2400 Hz = 7.0833
+Vin in 0 SFFM(0 {A} {FC} {MI} 2400)
+* The blocks: the bias references and the whole second-IF strip. Only the pump driver (pair C) and the charge pump
+* are exercised: the test signal goes straight onto node cb, the output of the limiter pair, through 100 nF.
+.param tolL=0 tolC=0 sd=0
+.include rx2_blk_bias.inc
+.include rx2_blk_if2.inc
+Cin in cb 100n
+.options plotwinsize=0
+.tran 0 3m 0 4n
+.four 2400 9 4 V(det)
+.meas TRAN vdet_dc AVG V(det) from 1.3333m to 3m
+.meas TRAN vdet_pp PP V(det) from 1.3333m to 3m
+.meas TRAN c2_pp PP V(c2) from 2.99m to 3m
+.meas TRAN c2_min MIN V(c2) from 2.99m to 3m
+.meas TRAN vbd_dc AVG V(vbd) from 2m to 3m
+.meas TRAN vp_dc AVG V(vp) from 2m to 3m
+.end

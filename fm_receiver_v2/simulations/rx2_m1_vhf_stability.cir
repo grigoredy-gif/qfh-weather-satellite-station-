@@ -1,0 +1,53 @@
+* RX2 M1 - VHF stages: do they ring down after a kick? (parasitic-oscillation check)
+* Tests: front end, first mixer and the 125 MHz chain at their DC operating point, no signal and no crystal current.
+*   Short current pulses (0.2 mA, 0.1 ns) hit the sensitive nodes one after another during the first 4 ns.
+*   Trapezoidal integration with 5 ps steps, so nothing is damped by the simulator itself.
+*   A stable circuit rings down: the peak-to-peak values in the last window (350 to 400 ns) must be far below
+*   those in the first (10 to 50 ns). A parasitic oscillation would stay or grow.
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 tolLr=0 tolS=0 xforce=1 pkg=1 sd=0
+.step param voq list -0.3 0 0.3
+Vcc vcc 0 {VCC}
+Vs src 0 0
+Rs src ant 50
+Rt1 t1 vcc 1k
+.include rx2_blk_bias.inc
+.include rx2_blk_fe.inc
+.include rx2_blk_mix1.inc
+.include rx2_blk_lo1osc.inc
+.include rx2_blk_lo1mul.inc
+Ik1 0 lb PULSE(0 0.2m 1n 20p 20p 80p)
+Ik2 0 bq1 PULSE(0 0.2m 1.5n 20p 20p 80p)
+Ik3 0 osc25 PULSE(0 0.2m 2n 20p 20p 80p)
+Ik4 0 bxa PULSE(0 0.2m 2.5n 20p 20p 80p)
+Ik5 0 ta PULSE(0 0.2m 3n 20p 20p 80p)
+Ik6 0 o25b PULSE(0 0.2m 3.5n 20p 20p 80p)
+Ik7 0 eq PULSE(0 0.2m 4n 20p 20p 80p)
+.options plotwinsize=0
+.tran 0 400n 0 5p
+.save V(lc) V(fe) V(eq) V(ta) V(emx) V(o25b) V(lo1) V(m1in)
+.meas TRAN lc_a PP V(lc) from 10n to 50n
+.meas TRAN lc_b PP V(lc) from 150n to 200n
+.meas TRAN lc_c PP V(lc) from 350n to 399n
+.meas TRAN fe_a PP V(fe) from 10n to 50n
+.meas TRAN fe_b PP V(fe) from 150n to 200n
+.meas TRAN fe_c PP V(fe) from 350n to 399n
+.meas TRAN eq_a PP V(eq) from 10n to 50n
+.meas TRAN eq_b PP V(eq) from 150n to 200n
+.meas TRAN eq_c PP V(eq) from 350n to 399n
+.meas TRAN ta_a PP V(ta) from 10n to 50n
+.meas TRAN ta_b PP V(ta) from 150n to 200n
+.meas TRAN ta_c PP V(ta) from 350n to 399n
+.meas TRAN emx_a PP V(emx) from 10n to 50n
+.meas TRAN emx_b PP V(emx) from 150n to 200n
+.meas TRAN emx_c PP V(emx) from 350n to 399n
+.meas TRAN o25b_a PP V(o25b) from 10n to 50n
+.meas TRAN o25b_b PP V(o25b) from 150n to 200n
+.meas TRAN o25b_c PP V(o25b) from 350n to 399n
+.meas TRAN lo1_a PP V(lo1) from 10n to 50n
+.meas TRAN lo1_b PP V(lo1) from 150n to 200n
+.meas TRAN lo1_c PP V(lo1) from 350n to 399n
+.meas TRAN m1in_a PP V(m1in) from 10n to 50n
+.meas TRAN m1in_b PP V(m1in) from 150n to 200n
+.meas TRAN m1in_c PP V(m1in) from 350n to 399n
+.end

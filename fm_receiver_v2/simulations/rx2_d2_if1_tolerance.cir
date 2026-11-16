@@ -1,0 +1,26 @@
+* RX2 D2 - first-IF strip, part tolerance (Monte-Carlo)
+* Tests: 300 runs with every tuned-circuit inductor and capacitor drawn at random inside +-5 %, nothing trimmed.
+*   out_at = response at 12.9 MHz (nominal about -16.9 dB re 1 V per uA); rej_img = 12.9 MHz response over the
+*   response at the second image 15.736 MHz.
+.include models.lib
+.param VCC=3.3 tolL=0.05 tolC=0.05
+.step param mcrun 1 302 1
+* runs 301 and 302: every part at the bottom, then at the top of its tolerance (all off the same way)
+.param sd=if(mcrun>301,1,if(mcrun>300,-1,0))
+Vcc vcc 0 {VCC}
+I1 0 t1 AC 1u
+Vlo lo2s 0 0
+Clo2s lo2s lo2 1n
+Rt5 t5 vcc 1k
+* stand-in for the collector of mixer 1 and its pad on T1
+Cmx1 t1 0 2.5p
+.include rx2_blk_bias.inc
+.include rx2_blk_if1.inc
+.include rx2_blk_mix2.inc
+.ac lin 1201 8Meg 20Meg
+.meas AC out_pk MAX mag(V(m2in))
+.meas AC out_fpk WHEN mag(V(m2in))=out_pk
+.meas AC out_at FIND mag(V(m2in)) AT 12.9Meg
+.meas AC out_img FIND mag(V(m2in)) AT 15.736Meg
+.meas AC rej_img PARAM out_at/out_img
+.end

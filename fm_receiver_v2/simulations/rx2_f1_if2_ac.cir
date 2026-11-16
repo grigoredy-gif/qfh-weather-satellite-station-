@@ -1,0 +1,26 @@
+* RX2 F1 - second-IF strip, small-signal response
+* Tests: centre frequency, bandwidth and gain of the two tuned circuits T5 and T6 (input: 1 uA into T5, as from mixer 2).
+*   V(t5) in mV = transimpedance in kohm. V(t6)/V(t5) = gain of pair A. V(cb)/V(t6) = small-signal gain of the limiter pair.
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 sd=0
+Vcc vcc 0 {VCC}
+I1 0 t5 AC 1u
+* the second mixer is connected (no signal, no LO): its collectors load T5 and move its centre
+Vin m2in 0 0
+Vlo lo2s 0 0
+Clo2s lo2s lo2 1n
+.include rx2_blk_mix2.inc
+.include rx2_blk_bias.inc
+.include rx2_blk_if2.inc
+.ac lin 1801 1.0Meg 1.9Meg
+.meas AC t5_pk MAX mag(V(t5))
+.meas AC t5_fpk WHEN mag(V(t5))=t5_pk
+.meas AC t6_pk MAX mag(V(t6))
+.meas AC t6_fpk WHEN mag(V(t6))=t6_pk
+.meas AC t6_flo WHEN mag(V(t6))=t6_pk/sqrt(2) RISE=1
+.meas AC t6_fhi WHEN mag(V(t6))=t6_pk/sqrt(2) FALL=last
+.meas AC t5_at FIND mag(V(t5)) AT 1.41818Meg
+.meas AC t6_at FIND mag(V(t6)) AT 1.41818Meg
+.meas AC cb_at FIND mag(V(cb)) AT 1.41818Meg
+.meas AC c2_at FIND mag(V(c2)) AT 1.41818Meg
+.end

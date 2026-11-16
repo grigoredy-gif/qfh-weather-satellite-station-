@@ -1,0 +1,27 @@
+* RX2 H2 - both IF strips with an FM signal: first IF + second mixer + second IF + detector
+* Tests: FM current at 12.9 MHz (+-17 kHz, 2400 Hz tone) into tuned circuit T1, as from mixer 1; audio out of the detector.
+*   LO2 is an ideal 14.31818 MHz source at the level the crystal oscillator delivers (0.2 V peak).
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 sd=0
+* input current, peak:   3 nA    10 nA    100 nA    1 uA      (x about 120 kohm = voltage at the second mixer)
+.step param run 1 4 1
+.param IPK=table(run,1,3n,2,10n,3,100n,4,1u)
+Vcc vcc 0 {VCC}
+I1 0 t1 SFFM(0 {IPK} 12.9Meg 7.0833 2400)
+* stand-in for the collector of mixer 1 and its pad on T1
+Cmx1 t1 0 2.5p
+Vlo lo2s 0 SINE(0 0.2 14.31818Meg)
+Clo2s lo2s lo2 1n
+.include rx2_blk_bias.inc
+.include rx2_blk_if1.inc
+.include rx2_blk_mix2.inc
+.include rx2_blk_if2.inc
+.options plotwinsize=0
+.tran 0 3m 0 2n
+.four 2400 9 4 V(det)
+.meas TRAN vdet_dc AVG V(det) from 1.3333m to 3m
+.meas TRAN m2in_pp PP V(m2in) from 2.99m to 3m
+.meas TRAN t6_pp PP V(t6) from 2.99m to 3m
+.meas TRAN cb_pp PP V(cb) from 2.99m to 3m
+.meas TRAN icc AVG -I(Vcc) from 2m to 3m
+.end

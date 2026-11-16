@@ -1,0 +1,25 @@
+* RX2 B3 - the two 125 MHz tuned circuits of the x5 stage, small signal
+* Tests: 1 A of AC current into the squarer's collector node (ta); V(lo1) is then the transfer in ohms.
+*   Shows where the pair of tuned circuits peaks, how wide it is, and how much 100 and 150 MHz get through.
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 tolLr=0 tolS=0 xforce=1 pkg=0 voq=0 sd=0
+Vcc vcc 0 {VCC}
+.include rx2_blk_lo1osc.inc
+Vin m1in 0 0
+Rt1 t1 vcc 1k
+Iac 0 ta AC 1
+.include rx2_blk_bias.inc
+.include rx2_blk_lo1mul.inc
+.include rx2_blk_mix1.inc
+.ac lin 1401 90Meg 160Meg
+.meas AC zpk MAX mag(V(lo1))
+.meas AC f3lo WHEN mag(V(lo1))=zpk/sqrt(2) RISE=1
+.meas AC f3hi WHEN mag(V(lo1))=zpk/sqrt(2) FALL=LAST
+.meas AC z125 FIND mag(V(lo1)) AT 125Meg
+.meas AC z100 FIND mag(V(lo1)) AT 100Meg
+.meas AC z150 FIND mag(V(lo1)) AT 150Meg
+.meas AC z120 FIND mag(V(lo1)) AT 120Meg
+.meas AC z1225 FIND mag(V(lo1)) AT 122.5Meg
+.meas AC z1275 FIND mag(V(lo1)) AT 127.5Meg
+.meas AC z130 FIND mag(V(lo1)) AT 130Meg
+.end

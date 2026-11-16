@@ -1,0 +1,35 @@
+* RX2 K1 - the whole receiver powered through its regulator: start-up, supply current, DC levels
+* Tests: every block connected, 5V pin and 3V3 pin switched on at t=0, no signal, crystals not oscillating
+*   (their motional branches are open), so this is the static supply picture. The oscillators add almost nothing
+*   to the average current when they run; the detector output (det) sits near 0 V without a signal.
+.include models.lib
+.param tolL=0 tolC=0 tolLr=0 tolS=0 xforce=1 pkg=0 voq=0 sd=0
+V5 v5 0 PWL(0 0 0.2m 4.7)
+V3 v3ref 0 PWL(0 0 0.2m 3.3)
+Vs src 0 0
+Rs src ant 50
+.include rx2_blk_reg.inc
+.include rx2_blk_bias.inc
+.include rx2_blk_fe.inc
+.include rx2_blk_mix1.inc
+.include rx2_blk_lo1osc.inc
+.include rx2_blk_lo1mul.inc
+.include rx2_blk_if1.inc
+.include rx2_blk_mix2.inc
+.include rx2_blk_lo2.inc
+.include rx2_blk_if2.inc
+.include rx2_blk_audio.inc
+.options plotwinsize=0
+.tran 0 400m 0 20u
+.save V(vcc) V(vb) V(va) V(adc) V(det) V(lc) V(vref) I(Rrs) I(Rfa1) I(Rfl)
+.meas TRAN vcc_end FIND V(vcc) AT 399m
+.meas TRAN vcc_max MAX V(vcc)
+.meas TRAN t_3v2 WHEN V(vcc)=3.2 RISE=1
+.meas TRAN i_total FIND I(Rrs) AT 399m
+.meas TRAN i_peak MAX I(Rrs)
+.meas TRAN vb_end FIND V(vb) AT 399m
+.meas TRAN va_end FIND V(va) AT 399m
+.meas TRAN adc_end FIND V(adc) AT 399m
+.meas TRAN i_lna FIND I(Rfl) AT 399m
+.meas TRAN i_audio FIND I(Rfa1) AT 399m
+.end

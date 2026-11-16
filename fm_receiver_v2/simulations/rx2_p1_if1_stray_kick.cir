@@ -1,0 +1,34 @@
+* RX2 P1 - first-IF strip: how much stray coupling between its ends does it take to oscillate?
+* Tests: the 12.9 MHz strip with the second mixer as its load, no signal. A short current pulse into T1 at 1 us
+*   starts a ring-down. One stray coupling is added per step, from the strip's output back to an earlier tuned circuit:
+*   cs  = stray capacitance from m2in (T4) to t2 (T2): 0, 0.05, 0.1, 0.15, 0.2 pF (steps 1 to 5);
+*   km  = magnetic coupling factor between inductors Lt2 and Lt4: +-0.002, +-0.005, +-0.01 (steps 6 to 11;
+*         the sign depends on how the two parts sit on the board, so both are tried);
+*   cs3 = stray capacitance from m2in (T4) to t3 (T3): 0.5 and 1 pF (steps 12 and 13).
+*   A stable strip rings down: pp_c (50 to 59 us) is far below pp_a (2 to 6 us). An unstable one keeps going.
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 sd=0
+.step param idx 1 13 1
+.param cs=table(idx,1,0,2,0.05p,3,0.1p,4,0.15p,5,0.2p,6,0,7,0,8,0,9,0,10,0,11,0,12,0,13,0)
+.param km=table(idx,1,0,2,0,3,0,4,0,5,0,6,0.002,7,-0.002,8,0.005,9,-0.005,10,0.01,11,-0.01,12,0,13,0)
+.param cs3=table(idx,1,0,2,0,3,0,4,0,5,0,6,0,7,0,8,0,9,0,10,0,11,0,12,0.5p,13,1p)
+Vcc vcc 0 {VCC}
+Vlo lo2s 0 0
+Clo2s lo2s lo2 1n
+Rt5 t5 vcc 1k
+* stand-in for the collector of mixer 1 and its pad on T1
+Cmx1 t1 0 2.5p
+.include rx2_blk_bias.inc
+.include rx2_blk_if1.inc
+.include rx2_blk_mix2.inc
+Cstray42 m2in t2 {cs+1e-18}
+Cstray43 m2in t3 {cs3+1e-18}
+Kstray24 Lt2 Lt4 {km}
+Ikick 0 t1 PULSE(0 2u 1u 5n 5n 30n)
+.options plotwinsize=0
+.tran 0 60u 0 2n
+.save V(m2in) V(t2) V(t3)
+.meas TRAN pp_a PP V(m2in) from 2u to 6u
+.meas TRAN pp_b PP V(m2in) from 20u to 24u
+.meas TRAN pp_c PP V(m2in) from 50u to 59u
+.end

@@ -1,0 +1,27 @@
+* RX2 B1 - 25 MHz oscillator start-up with the real crystal model
+* Tests: the whole 125 MHz chain with the crystal as a real resonator (40 ohm). A short current pulse stands in for
+*   the noise that starts a real oscillator. The 25 MHz amplitude at the squarer (osc25) is measured as it builds up.
+*   This is the cross-check of rx2_b2, which finds the same amplitude in seconds by forcing the crystal current.
+*   (1 ns steps: fine for 25 MHz, too coarse for the 125 MHz part, which rx2_b2 covers.)
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 tolLr=0 tolS=0 xforce=0 pkg=0 voq=0 sd=0
+Vcc vcc 0 {VCC}
+Vin m1in 0 0
+Rt1 t1 vcc 1k
+Ikick 0 o25b PULSE(0 2m 1n 1n 1n 18n)
+.include rx2_blk_bias.inc
+.include rx2_blk_lo1osc.inc
+.include rx2_blk_lo1mul.inc
+.include rx2_blk_mix1.inc
+.options plotwinsize=0
+.tran 0 5m 0 1n
+.save V(osc25) V(o25b) V(lo1)
+.meas TRAN vs_pp_0m2 PP V(osc25) from 0.2m to 0.201m
+.meas TRAN vs_pp_0m5 PP V(osc25) from 0.5m to 0.501m
+.meas TRAN vs_pp_1m PP V(osc25) from 1m to 1.001m
+.meas TRAN vs_pp_2m PP V(osc25) from 2m to 2.001m
+.meas TRAN vs_pp_3m PP V(osc25) from 3m to 3.001m
+.meas TRAN vs_pp_4m PP V(osc25) from 4m to 4.001m
+.meas TRAN vs_pp_5m PP V(osc25) from 4.999m to 5m
+.meas TRAN vb_pp_5m PP V(o25b) from 4.999m to 5m
+.end

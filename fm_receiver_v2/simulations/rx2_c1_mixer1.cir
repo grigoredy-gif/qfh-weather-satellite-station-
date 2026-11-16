@@ -1,0 +1,27 @@
+* RX2 C1 - first mixer into the first-IF strip: conversion gain and LO leakage against LO drive
+* Tests: 1 mV at 137.9 MHz at the mixer input, LO 125 MHz, output at 12.9 MHz through the four tuned circuits.
+*   One 10 us window holds whole cycles of 137.9, 125 and 12.9 MHz, so the Fourier values are clean.
+*   four[..] at 12.9 MHz / 1 mV = gain to that node.  Values at 125 MHz = LO leaking into the first IF.
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 pkg=0 sd=0
+.step param ALO list 0.2 0.4 0.6
+Vcc vcc 0 {VCC}
+Vin m1in 0 SINE(0 1m 137.9Meg)
+Vlo lo1 0 SINE(0 {ALO} 125Meg)
+Vlo2 lo2s 0 0
+Clo2s lo2s lo2 1n
+Rt5 t5 vcc 1k
+.include rx2_blk_bias.inc
+.include rx2_blk_mix1.inc
+.include rx2_blk_if1.inc
+.include rx2_blk_mix2.inc
+.options plotwinsize=0 method=gear
+.tran 0 30u 0 50p
+.four 12.9Meg 2 129 V(t1)
+.four 12.9Meg 2 129 V(t2)
+.four 12.9Meg 2 129 V(m2in)
+.four 125Meg 2 1250 V(t1)
+.four 125Meg 2 1250 V(bi11)
+.meas TRAN ix AVG I(Rex2) from 20u to 30u
+.meas TRAN vemx AVG V(emx) from 20u to 30u
+.end

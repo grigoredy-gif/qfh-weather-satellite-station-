@@ -1,0 +1,19 @@
+* RX2 A3 - front end noise figure (everything before the first mixer's frequency conversion)
+* Tests: LTspice .noise from the 50 ohm source to the mixer input. nf = 20*log10(input noise / noise of 50 ohm alone).
+*   The 50 ohm source alone gives 0.91 nV per root Hz (300 K).
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 tolLr=0 tolS=0 pkg=0 sd=0
+Vcc vcc 0 {VCC}
+Vs src 0 AC 1
+Rs src ant 50
+Vlo1 lo1 0 0
+Rt1 t1 vcc 1k
+.include rx2_blk_bias.inc
+.include rx2_blk_fe.inc
+.include rx2_blk_mix1.inc
+.noise V(m1in) Vs lin 161 130Meg 146Meg
+.meas NOISE in_1379 FIND V(inoise) AT 137.9Meg
+.meas NOISE nf_1379 PARAM 20*log10(in_1379/0.9102n)
+.meas NOISE in_1371 FIND V(inoise) AT 137.1Meg
+.meas NOISE nf_1371 PARAM 20*log10(in_1371/0.9102n)
+.end

@@ -1,0 +1,54 @@
+* models.lib - NOMINAL device models shared by every version-2 receiver simulation
+* Use:  .include models.lib        (for the slow / low-gain corner use:  .include models_slow.lib)
+* Both files define the same three names, so a deck switches corner by changing one line:
+*   QN  = MMBT3904 (NPN, general purpose)     QP = MMBT3906 (PNP)
+*   QRF = 2SC3356 (RF NPN, fT 7 GHz)          QIF = S9018 (IF NPN, fT about 1 GHz, low capacitance)
+*
+* QN / QP: LTspice's own 2N3904 / 2N3906 parameters (MMBT3904 / MMBT3906 are the same dice in SOT-23)
+.model QN NPN(IS=1E-14 VAF=100 BF=300 IKF=0.4 XTB=1.5 BR=4 CJC=4E-12 CJE=8E-12 RB=20 RC=0.1 RE=0.1 TR=250E-9 TF=350E-12 ITF=1 VTF=2 XTF=3)
+.model QP PNP(IS=1E-14 VAF=100 BF=200 IKF=0.4 XTB=1.5 BR=4 CJC=4.5E-12 CJE=10E-12 RB=20 RC=0.1 RE=0.1 TR=250E-9 TF=350E-12 ITF=1 VTF=2 XTF=3)
+* QRF: fast corner of a 2SC3356-class transistor, fT about 6 GHz. Not a vendor model: the part JLC stocks is a clone.
+.model QRF NPN(IS=6E-16 BF=120 VAF=30 IKF=0.08 RB=6 RE=0.4 RC=3 CJE=1.8p VJE=0.8 MJE=0.4 CJC=0.8p VJC=0.6 MJC=0.4 XCJC=0.5 TF=20p XTF=4 VTF=6 ITF=0.1 TR=1n)
+*
+* Diodes
+* BAS70 Schottky (same parameters as the BAS70WS model in version 1's sim12)
+.model DBAS70 D(Is=85n N=1.445 Rs=29 Cjo=1.95p Vj=2.5 M=0.37 Eg=0.69 Xti=2 Bv=70 Ibv=10u)
+* 1N4148-class switching diode (LTspice's 1N4148 parameters)
+.model D4148 D(Is=2.52n Rs=0.568 N=1.752 Cjo=4p M=0.333 Vj=0.7 Bv=100 Ibv=1u Tt=11.5n)
+* QIF: S9018 class (fT about 1 GHz, Cob 1.3 pF). Used where a tuned circuit must not see much transistor capacitance.
+.model QIF NPN(IS=1E-15 BF=100 VAF=40 IKF=0.05 RB=20 RE=0.6 RC=5 CJE=3p VJE=0.75 MJE=0.35 CJC=2p VJC=0.6 MJC=0.35 XCJC=0.5 TF=150p XTF=2 VTF=4 ITF=0.05 TR=2n)
+* BAV99-class clamp diode (1.5 pF)
+.model DBAV99 D(Is=2.5n N=1.75 Rs=0.6 Cjo=1.5p M=0.33 Vj=0.7 Bv=100 Ibv=1u Tt=4n)
+* 25 MHz crystal (JLC C9006 class: 3225, CL 12 pF, ESR 40 ohm typ). Rpar=1e15 switches off LTspice's hidden inductor damping.
+* FORCE=1 opens the motional branch, so a deck can force the crystal current with its own current source (see rx2_b1).
+.subckt XTAL25 a b params: FORCE=0 RM=40
+Lm a m 8.1088m Rpar=1e15
+Cm m n 5f
+Rm n b {RM+1e12*FORCE}
+C0 a b 1.5p
+.ends
+* 14.31818 MHz crystal (JLC C34748 class: 3225, CL 20 pF, ESR 60 ohm assumed, 80 at worst). Same FORCE switch as XTAL25.
+.subckt XTAL14 a b params: FORCE=0 RM=60
+Lm a m 15.4499m Rpar=1e15
+Cm m n 8f
+Rm n b {RM+1e12*FORCE}
+C0 a b 2.5p
+.ends
+* SOT-23 package between a transistor's die (dc db de) and its pads (pc pb pe): lead inductances and pin-to-pin
+* capacitances. Estimates for a small RF transistor in SOT-23, not vendor data. PKG=0 switches the package off
+* (1 fH leads, no capacitance); the VHF blocks pass the deck's parameter pkg.
+.subckt SOT23X pc pb pe dc db de params: PKG=1
+Lpb pb db {1.3n*PKG+1f}
+Lpe pe de {1.3n*PKG+1f}
+Lpc pc dc {0.5n*PKG+1f}
+Cpbe pb pe {0.08p*PKG}
+Cpce pc pe {0.16p*PKG}
+Cpcb pc pb {0.07p*PKG}
+.ends
+* Part tolerances. The blocks write tolv(value, tolerance) for a part with a relative tolerance and strv(x) for a
+* spread of +-x (small capacitors, strays). The deck's parameter sd chooses what they do:
+*   sd = 0   every part is drawn at random inside its tolerance (Monte-Carlo, a new draw per run)
+*   sd = +1  every part sits at the top of its tolerance; sd = -1 at the bottom (all parts off the same way,
+*            as when a whole reel is off in one direction)
+.func tolv(x,t) {x*(1+t*sd)+(mc(x,t)-x)*(1-abs(sd))}
+.func strv(x) {x*sd+flat(x)*(1-abs(sd))}

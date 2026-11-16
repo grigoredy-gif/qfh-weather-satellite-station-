@@ -1,0 +1,42 @@
+* RX2 O1 - bias reference: stage currents of the whole receiver against rail voltage and temperature
+* Tests: every block connected, no signal, crystals not oscillating (DC picture). Nine cases: rail 3.0 / 3.3 / 3.6 V
+*   at -10, 27 and 60 C. Each result line lists them in that order (3.0, 3.3, 3.6 V at -10 C first).
+*   vb, vbd = the two reference voltages; i_* = tail currents of the stages that hang on them:
+*   second-IF pairs A, B, C (pump driver), first-IF pairs 1 and 2, mixer 2, mixer 1, squarer.
+*   i_ref, i_refd = current fed into each reference; i_load = base current the stages draw from vb.
+.include models.lib
+.param tolL=0 tolC=0 tolLr=0 tolS=0 xforce=1 pkg=0 voq=0 sd=0
+.step param VCC list 3.0 3.3 3.6
+.step temp list -10 27 60
+Vcc vcc 0 {VCC}
+V3 v3ref 0 {VCC}
+Vs src 0 0
+Rs src ant 50
+Vdum dum 0 0
+Rdum dum 0 1k
+.include rx2_blk_bias.inc
+.include rx2_blk_fe.inc
+.include rx2_blk_mix1.inc
+.include rx2_blk_lo1osc.inc
+.include rx2_blk_lo1mul.inc
+.include rx2_blk_if1.inc
+.include rx2_blk_mix2.inc
+.include rx2_blk_lo2.inc
+.include rx2_blk_if2.inc
+.include rx2_blk_audio.inc
+.dc Vdum 0 1 1
+.meas DC vb FIND V(vb) AT 0
+.meas DC vbd FIND V(vbd) AT 0
+.meas DC i_a FIND I(Rea) AT 0
+.meas DC i_b FIND I(Reb) AT 0
+.meas DC i_c FIND I(Rec) AT 0
+.meas DC i_if11 FIND I(Rei1) AT 0
+.meas DC i_if12 FIND I(Rei2) AT 0
+.meas DC i_mix2 FIND I(Rt) AT 0
+.meas DC i_mix1 FIND I(Rex2) AT 0
+.meas DC i_sq FIND I(Rqe) AT 0
+.meas DC i_ref FIND I(Rref) AT 0
+.meas DC i_load FIND I(Rref)-I(Rrefs) AT 0
+.meas DC i_refd FIND I(Rrefd) AT 0
+.meas DC i_tot FIND -I(Vcc) AT 0
+.end

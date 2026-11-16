@@ -1,0 +1,38 @@
+* RX2 B4 - 125 MHz chain, tolerance run (Monte-Carlo, 60 runs, plus two runs with all parts off the same way)
+* Tests: tuned-circuit parts within tolerance (68 nH +-2 %, capacitors +-5 %, small ones +-0.25 pF) and a random
+*   offset of up to +-10 mV between the two squarer transistors (their base-emitter voltages never match exactly).
+*   Crystal current forced at 1.68 mA peak (the level the oscillator settles at with a 40 ohm crystal).
+*   Read from the harmonic table of V(lo1): line 5 = LO level, lines 4 and 6 = 100 and 150 MHz.
+*   The offset is the block parameter voq. The first 30 us are not saved (the squarer bases settle with 7 us);
+*   LTspice counts the saved time from 0, so the measurements run from 0 to 2 us.
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0.05 tolLr=0.02 tolS=1 xforce=1 xi25=1.68m pkg=0
+.step param run 1 62 1
+* runs 61 and 62: every part at the bottom, then at the top of its tolerance, with the full 10 mV offset
+.param sd=if(run>61,1,if(run>60,-1,0))
+.param voq=if(run>60,10m,flat(10m))
+Vcc vcc 0 {VCC}
+Vin m1in 0 0
+Rt1 t1 vcc 1k
+Ixf o25b osc25 SINE(0 {xi25} 25Meg)
+.include rx2_blk_bias.inc
+.include rx2_blk_lo1osc.inc
+.include rx2_blk_lo1mul.inc
+.include rx2_blk_mix1.inc
+.options plotwinsize=0 method=gear
+.tran 0 32u 30u 25p
+.save V(lo1) V(osc25) V(o25b) V(bq1) V(bq2) V(bxa) V(ta) V(eq) I(Ixf) I(Rqe) I(Ro25e) I(Rfe) I(Vcc)
+.four 25Meg 9 50 V(lo1)
+.four 25Meg 9 50 V(osc25)
+.meas TRAN pabs AVG V(o25b,osc25)*I(Ixf) from 0 to 2u
+.meas TRAN rsup PARAM 2*pabs/(xi25*xi25)
+.meas TRAN pxtal40 PARAM xi25*xi25*20
+.meas TRAN vs_pp PP V(osc25) from 0 to 2u
+.meas TRAN bq_pp PP V(bq1) from 0 to 2u
+.meas TRAN lo_pp PP V(lo1) from 0 to 2u
+.meas TRAN bx_pp PP V(bxa) from 0 to 2u
+.meas TRAN iq AVG I(Rqe) from 0 to 2u
+.meas TRAN io AVG I(Ro25e) from 0 to 2u
+.meas TRAN if AVG I(Rfe) from 0 to 2u
+.meas TRAN icc AVG -I(Vcc) from 0 to 2u
+.end

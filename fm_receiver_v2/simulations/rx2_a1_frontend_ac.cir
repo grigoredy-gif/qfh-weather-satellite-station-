@@ -1,0 +1,35 @@
+* RX2 A1 - front end, small-signal response from the antenna connector to the first-mixer input
+* Tests: gain, match, image rejection (112.1 MHz) and the other out-of-band points. Source: 1 V behind 50 ohm.
+*   A matched 50 ohm load would see 0.5 V, so gain = V(m1in) / 0.5 V. s11 = reflection at the connector.
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 tolLr=0 tolS=0 pkg=0 sd=0
+Vcc vcc 0 {VCC}
+Vs src 0 AC 1
+Rs src ant 50
+Vlo1 lo1 0 0
+Rt1 t1 vcc 1k
+.include rx2_blk_bias.inc
+.include rx2_blk_fe.inc
+.include rx2_blk_mix1.inc
+.ac lin 2201 80Meg 190Meg
+.meas AC g_pk MAX mag(V(m1in))
+.meas AC g_fpk WHEN mag(V(m1in))=g_pk
+.meas AC g_flo WHEN mag(V(m1in))=g_pk/sqrt(2) RISE=1
+.meas AC g_fhi WHEN mag(V(m1in))=g_pk/sqrt(2) FALL=last
+.meas AC g_1379 FIND mag(V(m1in)) AT 137.9Meg
+.meas AC g_1371 FIND mag(V(m1in)) AT 137.1Meg
+.meas AC g_img FIND mag(V(m1in)) AT 112.1Meg
+.meas AC g_100 FIND mag(V(m1in)) AT 100Meg
+.meas AC g_1629 FIND mag(V(m1in)) AT 162.9Meg
+.meas AC g_130 FIND mag(V(m1in)) AT 130Meg
+.meas AC g_134 FIND mag(V(m1in)) AT 134Meg
+.meas AC g_136 FIND mag(V(m1in)) AT 136Meg
+.meas AC g_140 FIND mag(V(m1in)) AT 140Meg
+.meas AC g_142 FIND mag(V(m1in)) AT 142Meg
+.meas AC lin_pk MAX mag(V(lb))
+.meas AC lin_fpk WHEN mag(V(lb))=lin_pk
+.meas AC s11_1375 FIND mag(2*V(ant)-1) AT 137.5Meg
+.meas AC lin_1379 FIND mag(V(lb)) AT 137.9Meg
+.meas AC lout_1379 FIND mag(V(lc)) AT 137.9Meg
+.meas AC s11 FIND mag(2*V(ant)-1) AT 137.9Meg
+.end

@@ -1,0 +1,253 @@
+designator,block,type,value,package,spec,pads,lcsc,mpn,manufacturer,jlc_class,status,ref
+Rle1,fe,resistor,2.2R,0603,1 %,2,C22939,0603WAF220KT5E,UNI-ROYAL,Basic,confirmed,R104
+Rfl,fe,resistor,10R,0603,1 %,2,C22859,0603WAF100JT5E,UNI-ROYAL,Basic,confirmed,R108
+Rrs,reg,resistor,10R,0603,1 %,2,C22859,0603WAF100JT5E,UNI-ROYAL,Basic,confirmed,R1001
+Rfu,lo1mul,resistor,22R,0603,1 %,2,C23345,0603WAF220JT5E,UNI-ROYAL,Basic,confirmed,R301
+Rfq,lo1mul,resistor,22R,0603,1 %,2,C23345,0603WAF220JT5E,UNI-ROYAL,Basic,confirmed,R316
+Rle2,fe,resistor,33R,0603,1 %,2,C23140,0603WAF330JT5E,UNI-ROYAL,Basic,confirmed,R105
+Rf1,lo1mul,resistor,33R,0603,1 %,2,C23140,0603WAF330JT5E,UNI-ROYAL,Basic,confirmed,R306
+Rsnq,lo1mul,resistor,47R,0603,1 %,2,C23182,0603WAF470JT5E,UNI-ROYAL,Basic,confirmed,R311
+Rqe,lo1mul,resistor,47R,0603,1 %,2,C23182,0603WAF470JT5E,UNI-ROYAL,Basic,confirmed,R313
+Rqs,lo1mul,resistor,47R,0603,1 %,2,C23182,0603WAF470JT5E,UNI-ROYAL,Basic,confirmed,R314
+Rsnb,mix1,resistor,47R,0603,1 %,2,C23182,0603WAF470JT5E,UNI-ROYAL,Basic,confirmed,R408
+Rsta,mix1,resistor,47R,0603,1 %,2,C23182,0603WAF470JT5E,UNI-ROYAL,Basic,confirmed,R409
+Rfx,mix1,resistor,47R,0603,1 %,2,C23182,0603WAF470JT5E,UNI-ROYAL,Basic,confirmed,R411
+Rfc,if2,resistor,47R,0603,1 %,2,C23182,0603WAF470JT5E,UNI-ROYAL,Basic,confirmed,R815
+Rge1,audio,resistor,47R,0603,1 %,2,C23182,0603WAF470JT5E,UNI-ROYAL,Basic,confirmed,R912
+Rfo25,lo1osc,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R201
+Rfs,lo1mul,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R304
+Rqt,lo1mul,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R312
+Rex1,mix1,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R402
+Rcxa,mix1,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R410
+Rft1,if1,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R502
+Rft3,if1,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R506
+Rft4,if1,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R510
+Re1,mix2,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R703
+Re2,mix2,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R704
+Rfm,mix2,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R710
+Rfo,lo2,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R601
+Rf5,if2,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R801
+Rfa,if2,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R805
+Rfb,if2,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R810
+Rfa1,audio,resistor,100R,0603,1 %,2,C22775,0603WAF1000T5E,UNI-ROYAL,Basic,confirmed,R901
+Rlc,fe,resistor,120R,0603,1 %,2,C22787,0603WAF1200T5E,UNI-ROYAL,Basic,confirmed,R106
+Rex2,mix1,resistor,200R,0603,1 %,2,C8218,0603WAF2000T5E,UNI-ROYAL,Basic,confirmed,R403
+Rrefs,bias,resistor,270R,0603,1 %,2,C22966,0603WAF2700T5E,UNI-ROYAL,Basic,confirmed,R1102
+Rfe,lo1mul,resistor,390R,0603,1 %,2,C23151,0603WAF3900T5E,UNI-ROYAL,Basic,confirmed,R305
+Rec,if2,resistor,390R,0603,1 %,2,C23151,0603WAF3900T5E,UNI-ROYAL,Basic,confirmed,R813
+Rlf,fe,resistor,470R,0603,1 %,2,C23179,0603WAF4700T5E,UNI-ROYAL,Basic,confirmed,R107
+Ro25e,lo1osc,resistor,470R,0603,1 %,2,C23179,0603WAF4700T5E,UNI-ROYAL,Basic,confirmed,R204
+Rbc2,if2,resistor,470R,0603,1 %,2,C23179,0603WAF4700T5E,UNI-ROYAL,Basic,confirmed,R812
+Reb,if2,resistor,560R,0603,1 %,2,C23204,0603WAF5600T5E,UNI-ROYAL,Basic,confirmed,R808
+Rbq1,lo1mul,resistor,680R,0603,1 %,2,C23228,0603WAF6800T5E,UNI-ROYAL,Basic,confirmed,R309
+Rbq2,lo1mul,resistor,680R,0603,1 %,2,C23228,0603WAF6800T5E,UNI-ROYAL,Basic,confirmed,R310
+Rdb,lo1mul,resistor,680R,0603,1 %,2,C23228,0603WAF6800T5E,UNI-ROYAL,Basic,confirmed,R315
+Roe,lo2,resistor,680R,0603,1 %,2,C23228,0603WAF6800T5E,UNI-ROYAL,Basic,confirmed,R604
+Rlb2,fe,resistor,1k,0603,1 %,2,C21190,0603WAF1001T5E,UNI-ROYAL,Basic,confirmed,R103
+Rt,mix2,resistor,1k,0603,1 %,2,C21190,0603WAF1001T5E,UNI-ROYAL,Basic,confirmed,R705
+Rea,if2,resistor,1.1k,0603,1 %,2,C22764,0603WAF1101T5E,UNI-ROYAL,Preferred,confirmed,R804
+Rcc,if2,resistor,1.1k,0603,1 %,2,C22764,0603WAF1101T5E,UNI-ROYAL,Preferred,confirmed,R814
+Rref,bias,resistor,1.1k,0603,1 %,2,C22764,0603WAF1101T5E,UNI-ROYAL,Preferred,confirmed,R1101
+Rei1,if1,resistor,1.2k,0603,1 %,2,C22765,0603WAF1201T5E,UNI-ROYAL,Basic,confirmed,R505
+Rei2,if1,resistor,1.2k,0603,1 %,2,C22765,0603WAF1201T5E,UNI-ROYAL,Basic,confirmed,R509
+Rret,reg,resistor,1.2k,0603,1 %,2,C22765,0603WAF1201T5E,UNI-ROYAL,Basic,confirmed,R1003
+Rp1,if2,resistor,1.5k,0603,1 %,2,C22843,0603WAF1501T5E,UNI-ROYAL,Basic,confirmed,R816
+Rge2,audio,resistor,1.5k,0603,1 %,2,C22843,0603WAF1501T5E,UNI-ROYAL,Basic,confirmed,R913
+Rpb,reg,resistor,1.5k,0603,1 %,2,C22843,0603WAF1501T5E,UNI-ROYAL,Basic,confirmed,R1002
+Rlb1,fe,resistor,1.8k,0603,1 %,2,C4177,0603WAF1801T5E,UNI-ROYAL,Basic,confirmed,R102
+Rcb,if2,resistor,1.8k,0603,1 %,2,C4177,0603WAF1801T5E,UNI-ROYAL,Basic,confirmed,R809
+Rd3,fe,resistor,2.2k,0603,1 %,2,C4190,0603WAF2201T5E,UNI-ROYAL,Basic,confirmed,R109
+Rqb1,lo1mul,resistor,2.2k,0603,1 %,2,C4190,0603WAF2201T5E,UNI-ROYAL,Basic,confirmed,R307
+Rea3,audio,resistor,2.2k,0603,1 %,2,C4190,0603WAF2201T5E,UNI-ROYAL,Basic,confirmed,R908
+Rr1,reg,resistor,2.2k,0603,1 %,2,C4190,0603WAF2201T5E,UNI-ROYAL,Basic,confirmed,R1004
+Rea2,audio,resistor,2.7k,0603,1 %,2,C13167,0603WAF2701T5E,UNI-ROYAL,Basic,confirmed,R905
+Rp2,if2,resistor,3k,0603,1 %,2,C4211,0603WAF3001T5E,UNI-ROYAL,Basic,confirmed,R817
+Rgc,audio,resistor,3k,0603,1 %,2,C4211,0603WAF3001T5E,UNI-ROYAL,Basic,confirmed,R911
+Rqb2,lo1mul,resistor,4.7k,0603,1 %,2,C23162,0603WAF4701T5E,UNI-ROYAL,Basic,confirmed,R308
+Rrefd,bias,resistor,4.7k,0603,1 %,2,C23162,0603WAF4701T5E,UNI-ROYAL,Basic,confirmed,R1103
+R12,audio,resistor,5.6k,0603,1 %,2,C23189,0603WAF5601T5E,UNI-ROYAL,Basic,confirmed,R904
+R22,audio,resistor,5.6k,0603,1 %,2,C23189,0603WAF5601T5E,UNI-ROYAL,Basic,confirmed,R907
+Resd,fe,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R101
+Rbx,mix1,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R401
+Rsx1,mix1,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R404
+Rbxa,mix1,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R406
+Rbxb,mix1,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R407
+Rdt1,if1,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R501
+Rbi11,if1,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R503
+Rbi12,if1,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R504
+Rbi21,if1,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R507
+Rbi22,if1,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R508
+Rbm1,mix2,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R701
+Rbm2,mix2,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R702
+Rs1,mix2,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R706
+Rbsa,mix2,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R708
+Rbsb,mix2,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R709
+Rba1,if2,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R802
+Rba2,if2,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R803
+Rbb1,if2,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R806
+Rbb2,if2,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R807
+Rbc1,if2,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R811
+Rea1,audio,resistor,10k,0603,1 %,2,C25804,0603WAF1002T5E,UNI-ROYAL,Basic,confirmed,R902
+Rfb1,lo1mul,resistor,15k,0603,1 %,2,C22809,0603WAF1502T5E,UNI-ROYAL,Basic,confirmed,R302
+Rsx2,mix1,resistor,15k,0603,1 %,2,C22809,0603WAF1502T5E,UNI-ROYAL,Basic,confirmed,R405
+Rs2,mix2,resistor,15k,0603,1 %,2,C22809,0603WAF1502T5E,UNI-ROYAL,Basic,confirmed,R707
+R11,audio,resistor,15k,0603,1 %,2,C22809,0603WAF1502T5E,UNI-ROYAL,Basic,confirmed,R903
+R21,audio,resistor,15k,0603,1 %,2,C22809,0603WAF1502T5E,UNI-ROYAL,Basic,confirmed,R906
+Ro25b1,lo1osc,resistor,22k,0603,1 %,2,C31850,0603WAF2202T5E,UNI-ROYAL,Basic,confirmed,R202
+Ro25b2,lo1osc,resistor,22k,0603,1 %,2,C31850,0603WAF2202T5E,UNI-ROYAL,Basic,confirmed,R203
+Rob1,lo2,resistor,22k,0603,1 %,2,C31850,0603WAF2202T5E,UNI-ROYAL,Basic,confirmed,R602
+Rob2,lo2,resistor,22k,0603,1 %,2,C31850,0603WAF2202T5E,UNI-ROYAL,Basic,confirmed,R603
+Rg2,audio,resistor,22k,0603,1 %,2,C31850,0603WAF2202T5E,UNI-ROYAL,Basic,confirmed,R910
+RL,if2,resistor,27k,0603,1 %,2,C22967,0603WAF2702T5E,UNI-ROYAL,Basic,confirmed,R818
+Rg1,audio,resistor,27k,0603,1 %,2,C22967,0603WAF2702T5E,UNI-ROYAL,Basic,confirmed,R909
+Rfb2,lo1mul,resistor,33k,0603,1 %,2,C4216,0603WAF3302T5E,UNI-ROYAL,Basic,confirmed,R303
+Rup2,audio,resistor,51k,0603,1 %,2,C23196,0603WAF5102T5E,UNI-ROYAL,Basic,confirmed,R915
+Rup1,audio,resistor,82k,0603,1 %,2,C23254,0603WAF8202T5E,UNI-ROYAL,Basic,confirmed,R914
+Ct4b,if1,capacitor,3pF,0603,"C0G 50 V, +-0.25 pF",2,C46219,0603CG3R0C500NT,FH,Preferred,confirmed,C515
+Ct2b,if1,capacitor,4.7pF,0603,"C0G 50 V, +-0.25 pF",2,C1669,0603CG4R7C500NT,FH,Preferred,confirmed,C506
+C5b,if2,capacitor,4.7pF,0603,"C0G 50 V, +-0.25 pF",2,C1669,0603CG4R7C500NT,FH,Preferred,confirmed,C802
+Cr1b,fe,capacitor,6pF,0603,"C0G 50 V, +-0.25 pF",2,C37474,0603CG6R0C500NT,FH,Preferred,confirmed,C102
+Cr1c,fe,capacitor,6.8pF,0603,"C0G 50 V, +-0.25 pF",2,C1679,0603CG6R8C500NT,FH,Preferred,confirmed,C103
+Cr2a,fe,capacitor,6.8pF,0603,"C0G 50 V, +-0.25 pF",2,C1679,0603CG6R8C500NT,FH,Preferred,confirmed,C108
+Cta2,lo1mul,capacitor,6.8pF,0603,"C0G 50 V, +-0.25 pF",2,C1679,0603CG6R8C500NT,FH,Preferred,confirmed,C308
+Ctb2,lo1mul,capacitor,6.8pF,0603,"C0G 50 V, +-0.25 pF",2,C1679,0603CG6R8C500NT,FH,Preferred,confirmed,C311
+Ct1b,if1,capacitor,6.8pF,0603,"C0G 50 V, +-0.25 pF",2,C1679,0603CG6R8C500NT,FH,Preferred,confirmed,C502
+Ct3b,if1,capacitor,6.8pF,0603,"C0G 50 V, +-0.25 pF",2,C1679,0603CG6R8C500NT,FH,Preferred,confirmed,C510
+C6b,if2,capacitor,6.8pF,0603,"C0G 50 V, +-0.25 pF",2,C1679,0603CG6R8C500NT,FH,Preferred,confirmed,C807
+Cr1a,fe,capacitor,8.2pF,0603,"C0G 50 V, +-0.25 pF",2,C1685,0603CG8R2C500NT,FH,Preferred,confirmed,C101
+Cs25,lo1osc,capacitor,10pF,0603,"C0G 50 V, 5 %",2,C1634,CL10C100JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C204
+Cr2b,fe,capacitor,12pF,0603,"C0G 50 V, 5 %",2,C38523,CL10C120JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C109
+Ctb,lo1mul,capacitor,15pF,0603,"C0G 50 V, 5 %",2,C1644,CL10C150JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C310
+Cr3b,fe,capacitor,18pF,0603,"C0G 50 V, 5 %",2,C1647,CL10C180JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C111
+Cta,lo1mul,capacitor,18pF,0603,"C0G 50 V, 5 %",2,C1647,CL10C180JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C307
+Ct3a,if1,capacitor,33pF,0603,"C0G 50 V, 5 %",2,C1663,CL10C330JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C509
+Ct4a,if1,capacitor,33pF,0603,"C0G 50 V, 5 %",2,C1663,CL10C330JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C514
+Cl2,lo2,capacitor,33pF,0603,"C0G 50 V, 5 %",2,C1663,CL10C330JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C605
+Co25a,lo1osc,capacitor,47pF,0603,"C0G 50 V, 5 %",2,C1671,CL10C470JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C202
+Ct1a,if1,capacitor,47pF,0603,"C0G 50 V, 5 %",2,C1671,CL10C470JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C501
+Ct2a,if1,capacitor,47pF,0603,"C0G 50 V, 5 %",2,C1671,CL10C470JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C505
+C1,if2,capacitor,47pF,0603,"C0G 50 V, 5 %",2,C1671,CL10C470JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C816
+Co1,lo2,capacitor,68pF,0603,"C0G 50 V, 5 %",2,C28262,CL10C680JB8NNNC,Samsung Electro-Mechanics,Preferred,confirmed,C602
+Cd2,lo2,capacitor,68pF,0603,"C0G 50 V, 5 %",2,C28262,CL10C680JB8NNNC,Samsung Electro-Mechanics,Preferred,confirmed,C604
+Co25b,lo1osc,capacitor,100pF,0603,"C0G 50 V, 5 %",2,C14858,CL10C101JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C203
+Cmab,lo1mul,capacitor,100pF,0603,"C0G 50 V, 5 %",2,C14858,CL10C101JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C309
+Cx1,mix1,capacitor,100pF,0603,"C0G 50 V, 5 %",2,C14858,CL10C101JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C401
+Clo1,mix1,capacitor,100pF,0603,"C0G 50 V, 5 %",2,C14858,CL10C101JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C406
+Co2,lo2,capacitor,100pF,0603,"C0G 50 V, 5 %",2,C14858,CL10C101JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C603
+C5a,if2,capacitor,100pF,0603,"C0G 50 V, 5 %",2,C14858,CL10C101JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C801
+C6a,if2,capacitor,100pF,0603,"C0G 50 V, 5 %",2,C14858,CL10C101JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C806
+Cm23,fe,capacitor,330pF,0603,"C0G 50 V, 5 %",2,C1664,CL10C331JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C110
+Cm12,if1,capacitor,330pF,0603,"C0G 50 V, 5 %",2,C1664,CL10C331JB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C504
+CL,if2,capacitor,470pF,0603,"X7R 50 V, 10 %",2,C1620,0603B471K500NT,FH,Basic,confirmed,C817
+Cle2,fe,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C104
+Cle3,fe,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C105
+Clf,fe,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C106
+Csnq,lo1mul,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C304
+Cex2,mix1,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C402
+Cbxb,mix1,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C404
+Csnb,mix1,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C405
+Cpi1,if1,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C507
+Cpi2,if1,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C512
+Cm2,mix2,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C701
+Cc5,if2,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C804
+Cc6,if2,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C809
+C12,audio,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C903
+C22,audio,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C905
+Cadc,audio,capacitor,1nF,0603,"X7R 50 V, 10 %",2,C1588,CL10B102KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C909
+C11,audio,capacitor,4.7nF,0603,"X7R 50 V, 10 %",2,C53987,0603B472K500NT,FH,Basic,confirmed,C902
+C21,audio,capacitor,4.7nF,0603,"X7R 50 V, 10 %",2,C53987,0603B472K500NT,FH,Basic,confirmed,C904
+Ccl,lo1osc,capacitor,10nF,0603,"X7R 50 V, 10 %",2,C57112,0603B103K500NT,FH,Basic,confirmed,C205
+Cf1,lo1mul,capacitor,10nF,0603,"X7R 50 V, 10 %",2,C57112,0603B103K500NT,FH,Basic,confirmed,C302
+Cbq2,lo1mul,capacitor,10nF,0603,"X7R 50 V, 10 %",2,C57112,0603B103K500NT,FH,Basic,confirmed,C305
+Cbi12,if1,capacitor,10nF,0603,"X7R 50 V, 10 %",2,C57112,0603B103K500NT,FH,Basic,confirmed,C508
+Cbi22,if1,capacitor,10nF,0603,"X7R 50 V, 10 %",2,C57112,0603B103K500NT,FH,Basic,confirmed,C513
+Cbm2,mix2,capacitor,10nF,0603,"X7R 50 V, 10 %",2,C57112,0603B103K500NT,FH,Basic,confirmed,C702
+Cbsb,mix2,capacitor,10nF,0603,"X7R 50 V, 10 %",2,C57112,0603B103K500NT,FH,Basic,confirmed,C704
+Cba2,if2,capacitor,10nF,0603,"X7R 50 V, 10 %",2,C57112,0603B103K500NT,FH,Basic,confirmed,C805
+Cbb2,if2,capacitor,10nF,0603,"X7R 50 V, 10 %",2,C57112,0603B103K500NT,FH,Basic,confirmed,C810
+Cc7,if2,capacitor,10nF,0603,"X7R 50 V, 10 %",2,C57112,0603B103K500NT,FH,Basic,confirmed,C812
+Cbc2,if2,capacitor,10nF,0603,"X7R 50 V, 10 %",2,C57112,0603B103K500NT,FH,Basic,confirmed,C813
+Cfl2,fe,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C107
+Cfo25,lo1osc,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C201
+Cfu,lo1mul,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C301
+Cvbq,lo1mul,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C303
+Cqt,lo1mul,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C306
+Cfq2,lo1mul,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C312
+Cvbx,mix1,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C403
+Cfx2,mix1,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C407
+Cft1,if1,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C503
+Cft3,if1,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C511
+Cft4,if1,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C516
+Cvbs,mix2,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C703
+Cfm,mix2,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C705
+Cfo,lo2,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C601
+Cf5,if2,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C803
+Cfa,if2,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C808
+Cfb,if2,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C811
+Cfc,if2,capacitor,100nF,0603,"X7R 50 V, 10 %",2,C14663,CC0603KRX7R9BB104,YAGEO,Basic,confirmed,C814
+Cvp,if2,capacitor,1uF,0603,"X5R 50 V, 10 %",2,C15849,CL10A105KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C815
+Cg1,audio,capacitor,1uF,0603,"X5R 50 V, 10 %",2,C15849,CL10A105KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C906
+Cuo,audio,capacitor,1uF,0603,"X5R 50 V, 10 %",2,C15849,CL10A105KB8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C908
+Cr,reg,capacitor,10uF,0603,"X5R 10 V, 10 %",2,C19702,CL10A106KP8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C1001
+Cin,reg,capacitor,10uF,0603,"X5R 10 V, 10 %",2,C19702,CL10A106KP8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C1002
+Cref,bias,capacitor,10uF,0603,"X5R 10 V, 10 %",2,C19702,CL10A106KP8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C1101
+Crefd,bias,capacitor,10uF,0603,"X5R 10 V, 10 %",2,C19702,CL10A106KP8NNNC,Samsung Electro-Mechanics,Basic,confirmed,C1102
+Cfa1,audio,capacitor,100uF,1206,"X5R 6.3 V, 20 %",2,C15008,CL31A107MQHNNNE,Samsung Electro-Mechanics,Basic,confirmed,C901
+Cge,audio,capacitor,100uF,1206,"X5R 6.3 V, 20 %",2,C15008,CL31A107MQHNNNE,Samsung Electro-Mechanics,Basic,confirmed,C907
+Cout,reg,capacitor,100uF,1206,"X5R 6.3 V, 20 %",2,C15008,CL31A107MQHNNNE,Samsung Electro-Mechanics,Basic,confirmed,C1003
+Lr1,fe,inductor,68nH,0603,"wirewound, 2 %",2,C86135,LQW18AN68NG00D,Murata Electronics,Extended,confirmed,L101
+Lr2,fe,inductor,68nH,0603,"wirewound, 2 %",2,C86135,LQW18AN68NG00D,Murata Electronics,Extended,confirmed,L102
+Lr3,fe,inductor,68nH,0603,"wirewound, 2 %",2,C86135,LQW18AN68NG00D,Murata Electronics,Extended,confirmed,L103
+Lta,lo1mul,inductor,68nH,0603,"wirewound, 2 %",2,C86135,LQW18AN68NG00D,Murata Electronics,Extended,confirmed,L301
+Ltb,lo1mul,inductor,68nH,0603,"wirewound, 2 %",2,C86135,LQW18AN68NG00D,Murata Electronics,Extended,confirmed,L302
+Lt1,if1,inductor,3.3uH,1008,"wirewound, 5 %",2,C6364740,AHW2520C-3R3JTF,APV,Extended,confirmed,L501
+Lt2,if1,inductor,3.3uH,1008,"wirewound, 5 %",2,C6364740,AHW2520C-3R3JTF,APV,Extended,confirmed,L502
+Lt3,if1,inductor,3.3uH,1008,"wirewound, 5 %",2,C6364740,AHW2520C-3R3JTF,APV,Extended,confirmed,L503
+Lt4,if1,inductor,3.3uH,1008,"wirewound, 5 %",2,C6364740,AHW2520C-3R3JTF,APV,Extended,confirmed,L504
+L5,if2,inductor,100uH,1210,"wirewound, not shielded, 5 %",2,C295124,NLV32T-101J-EF,TDK,Extended,confirmed,L801
+L6,if2,inductor,100uH,1210,"wirewound, not shielded, 5 %",2,C295124,NLV32T-101J-EF,TDK,Extended,confirmed,L802
+Ql,fe,transistor,2SC3356,SOT-23,NPN,3,C28646266,2SC3356,hongjiacheng,Preferred,confirmed,Q101
+Qq1,lo1mul,transistor,2SC3356,SOT-23,NPN,3,C28646266,2SC3356,hongjiacheng,Preferred,confirmed,Q302
+Qq2,lo1mul,transistor,2SC3356,SOT-23,NPN,3,C28646266,2SC3356,hongjiacheng,Preferred,confirmed,Q303
+Qqt,lo1mul,transistor,2SC3356,SOT-23,NPN,3,C28646266,2SC3356,hongjiacheng,Preferred,confirmed,Q304
+Qx,mix1,transistor,2SC3356,SOT-23,NPN,3,C28646266,2SC3356,hongjiacheng,Preferred,confirmed,Q401
+Qxa,mix1,transistor,2SC3356,SOT-23,NPN,3,C28646266,2SC3356,hongjiacheng,Preferred,confirmed,Q402
+Qxb,mix1,transistor,2SC3356,SOT-23,NPN,3,C28646266,2SC3356,hongjiacheng,Preferred,confirmed,Q403
+Qo25,lo1osc,transistor,S9018,SOT-23,NPN,3,C41375130,S9018,hongjiacheng,Preferred,confirmed,Q201
+Qf,lo1mul,transistor,S9018,SOT-23,NPN,3,C41375130,S9018,hongjiacheng,Preferred,confirmed,Q301
+Qi11,if1,transistor,S9018,SOT-23,NPN,3,C41375130,S9018,hongjiacheng,Preferred,confirmed,Q501
+Qi12,if1,transistor,S9018,SOT-23,NPN,3,C41375130,S9018,hongjiacheng,Preferred,confirmed,Q502
+Qi21,if1,transistor,S9018,SOT-23,NPN,3,C41375130,S9018,hongjiacheng,Preferred,confirmed,Q503
+Qi22,if1,transistor,S9018,SOT-23,NPN,3,C41375130,S9018,hongjiacheng,Preferred,confirmed,Q504
+Qm1,mix2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q701
+Qm2,mix2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q702
+Qs1,mix2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q703
+Qs2,mix2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q704
+Qs3,mix2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q705
+Qs4,mix2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q706
+Qo,lo2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q601
+Qa1,if2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q801
+Qa2,if2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q802
+Qb1,if2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q803
+Qb2,if2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q804
+Qc1,if2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q805
+Qc2,if2,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q806
+Qu2,audio,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q902
+Qg,audio,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q904
+Qre1,reg,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q1003
+Qre2,reg,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q1004
+Qref,bias,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q1101
+Qrd1,bias,transistor,MMBT3904,SOT-23,NPN,3,C20526,MMBT3904(RANGE:100-300),"Jiangsu Changjing Electronics Technology Co., Ltd.",Basic,confirmed,Q1102
+Q3,if2,transistor,MMBT3906,SOT-23,PNP,3,C7420354,MMBT3906,hongjiacheng,Preferred,confirmed,Q807
+Qu1,audio,transistor,MMBT3906,SOT-23,PNP,3,C7420354,MMBT3906,hongjiacheng,Preferred,confirmed,Q901
+Qu3,audio,transistor,MMBT3906,SOT-23,PNP,3,C7420354,MMBT3906,hongjiacheng,Preferred,confirmed,Q903
+Qrl,reg,transistor,MMBT3906,SOT-23,PNP,3,C7420354,MMBT3906,hongjiacheng,Preferred,confirmed,Q1001
+Qrp,reg,transistor,MMBT3906,SOT-23,PNP,3,C7420354,MMBT3906,hongjiacheng,Preferred,confirmed,Q1002
+Qrd2,bias,transistor,MMBT3906,SOT-23,PNP,3,C7420354,MMBT3906,hongjiacheng,Preferred,confirmed,Q1103
+Dcl3,lo2,diode,BAS70,SOT-23,"Schottky, single",3,C7502686,BAS70,hongjiacheng,Preferred,confirmed,D601
+Dcl4,lo2,diode,BAS70,SOT-23,"Schottky, single",3,C7502686,BAS70,hongjiacheng,Preferred,confirmed,D602
+D1,if2,diode,BAS70,SOT-23,"Schottky, single",3,C7502686,BAS70,hongjiacheng,Preferred,confirmed,D801
+Desd1+Desd2,fe,diode,BAV99,SOT-23,two diodes in series,3,C2500,"BAV99,215",Nexperia,Basic,confirmed,D101
+Dcl1+Dcl2,lo1osc,diode,BAV99,SOT-23,two diodes in series,3,C2500,"BAV99,215",Nexperia,Basic,confirmed,D201
+Xq14,lo2,crystal,14.31818MHz,3225,load 20 pF,4,C34748,X32251431818MSB4SI,YXC Crystal Oscillators,Extended,confirmed,Y601
+Xq25,lo1osc,crystal,25MHz,3225,load 12 pF,4,C9006,X322525MOB4SI,YXC Crystal Oscillators,Basic,confirmed,Y201

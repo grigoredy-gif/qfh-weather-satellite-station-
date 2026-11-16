@@ -1,0 +1,29 @@
+* RX2 Q1 - can the second IF lock itself through the first IF? (9th harmonic of the pump driver = 12.886 MHz)
+* Both IF strips, mixer 2 and the detector, as in H2. A stray capacitor Cst goes from node c2 (the 1.65 V square
+* wave of the pump driver) to node t1. A burst of current at 12.886362 MHz starts the limiter; after 0.3 ms the
+* input is zero. If the loop gain through the stray is above 1, the square wave at c2 stays, at
+* LO2 / 10 = 1.431818 MHz (its 9th harmonic mixes with LO2 back to itself). If not, it dies away.
+.include models.lib
+.param VCC=3.3 tolL=0 tolC=0 sd=0
+.step param run 1 5 1
+.param CST=table(run,1,1e-18,2,1e-16,3,1e-15,4,1e-14,5,1e-13)
+Vcc vcc 0 {VCC}
+B1 0 t1 I=if(time<0.3m, 100n*sin(2*pi*12.886362Meg*time), 0)
+* stand-in for the collector of mixer 1 and its pad on T1
+Cmx1 t1 0 2.5p
+Vlo lo2s 0 SINE(0 0.2 14.31818Meg)
+Clo2s lo2s lo2 1n
+Cst c2 t1 {CST}
+.include rx2_blk_bias.inc
+.include rx2_blk_if1.inc
+.include rx2_blk_mix2.inc
+.include rx2_blk_if2.inc
+.options plotwinsize=0
+.tran 0 1.5m 0 2n
+.meas TRAN c2_start PP V(c2) from 0.25m to 0.29m
+.meas TRAN c2_mid PP V(c2) from 0.6m to 0.65m
+.meas TRAN c2_end PP V(c2) from 1.44m to 1.49m
+.meas TRAN t5_end PP V(t5) from 1.44m to 1.49m
+.meas TRAN m2in_end PP V(m2in) from 1.44m to 1.49m
+.meas TRAN vdet_end AVG V(det) from 1.3m to 1.49m
+.end
