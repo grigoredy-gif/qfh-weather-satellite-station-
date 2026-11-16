@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "rx2")(type "KiCad")(uri "${KIPRJMOD}/rx2.kicad_sym")(options "")(descr "receiver version 2: project symbols"))
+)

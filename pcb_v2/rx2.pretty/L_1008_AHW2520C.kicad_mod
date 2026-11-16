@@ -1,0 +1,145 @@
+(footprint "L_1008_AHW2520C"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "APV AHW2520C wirewound inductor, 1008: land pattern of the data sheet (pads 1.02 x 2.54, gap 1.27)")
+	(tags "inductor")
+	(property "Reference" "REF**"
+		(at 0 -2.05 0)
+		(layer "F.SilkS")
+		(uuid "95bebb45-5b94-4af0-a415-109f25eabcb8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "L_1008_2520Metric"
+		(at 0 2.05 0)
+		(layer "F.Fab")
+		(uuid "8845f97d-5c3d-46fd-9d54-75678bac3542")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "5f9041f5-971c-4f67-ac6d-b1ae0fe82f7d")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "8c8afb85-d7ec-4168-99cf-d853493250f0")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "KiLib_Generator" "SMD_2terminal_chip_molded"
+		(at 0 0 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "50bce160-d993-4977-aecc-5e2a2574d37c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -0.435 -1.47)
+		(end 0.435 -1.47)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "1f17fe67-4452-4a5b-8dcf-43080adcc347")
+	)
+	(fp_line
+		(start -0.435 1.47)
+		(end 0.435 1.47)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "85a8f655-5256-4dfc-a61c-0c827c953304")
+	)
+	(fp_rect
+		(start -1.905 -1.6)
+		(end 1.905 1.6)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "d9430c06-4c6d-4340-8aa3-a8e72b5448e6")
+	)
+	(fp_rect
+		(start -1.46 -1.35)
+		(end 1.46 1.35)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "fdd9d62c-de1a-4bcd-996b-57ee8afb9feb")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "a3ee9c7c-f05b-46ac-8aa5-41a5c8bea7c8")
+		(effects
+			(font
+				(size 0.62 0.62)
+				(thickness 0.09)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -1.145 0)
+		(size 1.02 2.54)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.2)
+		(uuid "9e078ec5-4419-4911-ada5-4969e7d34c92")
+	)
+	(pad "2" smd roundrect
+		(at 1.145 0)
+		(size 1.02 2.54)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.2)
+		(uuid "5e04b555-2448-4a5a-9d86-d53355fb3d3b")
+	)
+	(embedded_fonts no)
+	(model "${KICAD10_3DMODEL_DIR}/Inductor_SMD.3dshapes/L_1008_2520Metric.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

@@ -1,0 +1,92 @@
+{
+    "$schema": "https://schemas.kicad.org/erc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-11-14T13:34:01",
+    "ignored_checks": [
+        {
+            "description": "Global label only appears once in the schematic",
+            "key": "single_global_label"
+        },
+        {
+            "description": "Four connection points are joined together",
+            "key": "four_way_junction"
+        },
+        {
+            "description": "SPICE model issue",
+            "key": "simulation_model_issue"
+        },
+        {
+            "description": "Assigned footprint doesn't match footprint filters",
+            "key": "footprint_filter"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.3",
+    "sheets": [
+        {
+            "path": "/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3",
+            "violations": []
+        },
+        {
+            "path": "/1 Front end 137.9 MHz/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3/2e3ae1df-ca59-5411-8cb8-efdfd7b0f0a1",
+            "violations": []
+        },
+        {
+            "path": "/2 Oscillator 25 MHz/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3/e8523348-d716-5e8d-a6b5-803409b259ad",
+            "violations": []
+        },
+        {
+            "path": "/3 Multiplier to 125 MHz/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3/0020c249-8edc-5fc9-a849-3a9e5506cdcf",
+            "violations": []
+        },
+        {
+            "path": "/4 Mixer 1/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3/243fb844-c2ec-5570-9f9a-873e1dffb209",
+            "violations": []
+        },
+        {
+            "path": "/5 First IF 12.9 MHz/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3/66e0d8ec-4a45-5f51-920f-fefe9fbf11c0",
+            "violations": []
+        },
+        {
+            "path": "/6 Oscillator 14.318 MHz/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3/1087b699-3cf8-5cba-9d4d-4557830c622a",
+            "violations": []
+        },
+        {
+            "path": "/7 Mixer 2/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3/b326d518-4b1c-539d-938f-48c63b492455",
+            "violations": []
+        },
+        {
+            "path": "/8 Second IF 1.418 MHz and detector/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3/fa101f64-78fd-5302-9cb2-0c5848593727",
+            "violations": []
+        },
+        {
+            "path": "/9 Audio chain/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3/d7b897c3-f19e-5282-8333-5b72ff57e566",
+            "violations": []
+        },
+        {
+            "path": "/10 Regulator and DevKitC/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3/6efd03f5-f4c9-5d12-8794-ea0231ee8cef",
+            "violations": []
+        },
+        {
+            "path": "/11 Bias references/",
+            "uuid_path": "/4e0c5497-754d-5840-a789-5fa21646ddb3/0cc49df2-9597-5cd0-8b9f-fcbb2597f3ce",
+            "violations": []
+        }
+    ],
+    "source": "rx2_receiver.kicad_sch"
+}

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "rx2")(type "KiCad")(uri "${KIPRJMOD}/rx2.pretty")(options "")(descr "receiver version 2: project footprints"))
+)
