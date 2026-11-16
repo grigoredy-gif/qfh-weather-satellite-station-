@@ -394,10 +394,17 @@ amplitude** (−12.196 vs −12.197 dB). That is the physical sign of maximum
 power transfer, and here it shows up directly in the numbers. Skirts:
 −27.9 dB at ±500 kHz, −39.9 dB at ±1 MHz, symmetric to 0.03 dB.
 
-**Bench recipe.** With N = 27 turns, a link of n turns gives k ≈ (n/N)², so
-**2 / 3 / 4 turns land almost exactly on the three curves above**. Wind
-3 turns for critical coupling, and remove one if the response comes out
-double-humped. So the simulation also gave me the winding instructions.
+**Bench recipe (corrected November 2026).** I first wrote that a link of n
+turns on N = 27 gives k ≈ (n/N)², so that 2 / 3 / 4 turns would land on the
+three curves above. That rule is wrong for a link loop. The two link windings
+form a low-impedance loop, and their coupling is
+k_eff = kw²·n²·AL / (2·n²·AL + Lw + Ls), where kw is how well a link couples to
+its own main winding, Lw the loop's wiring inductance and Ls any inductance
+added in series. With the links simply joined (Ls = 0), k_eff comes out at
+0.08–0.3, far above the 0.011 needed. No number of turns fixes that. The
+board's fix is 2-turn links with a 680 nH inductor in series, which gives
+k_eff ≈ 0.0106 at kw = 0.8. The pcb design log ("November 2026 fix round") has
+the simulation.
 
 ## SIM 4 — the IF amplifier and limiter
 
@@ -1247,6 +1254,15 @@ The detector needs ~1.2 V, so full limiter drive happens at about **−106 dBm
 at the receiver input** (~22 µV at the IF chain). The 4 dB found at the
 mixer/filter seam show up directly in the sensitivity threshold.
 
+*Corrected November 2026.* The final check measured the limiter directly in
+the 4.6 V deck instead of adding up the table. The antenna-to-first-IF-base
+gain is 31.6 dB, not the 28.2 dB the table implies, and the limiter is within
+1 dB of full output at about 35 µV at the first IF base. Referred to the
+input, full limiting is at about **−117 dBm**, not −106 dBm: 11 dB of
+surplus, so noise alone already drives the limiter. The 56 Ω LNA termination
+added in the PCB fix round costs 5 dB of that, so full limiting on the board
+is at about −112 dBm.
+
 **The first test is done by cable, not over the air.** A Pluto plays back a
 recorded NOAA APT pass into the receiver through an attenuator chain. There
 is no antenna and nothing is transmitted. In practice the source has to be
@@ -1261,7 +1277,7 @@ The same budget is what makes over-the-air reception possible later, and
 that is why I designed it to this number. A QFH collects roughly **−90 dBm**
 from a Meteor pass overhead and **−100 dBm** near the horizon. The noise
 floor in this bandwidth is about **−113 dBm**, so a usable signal starts
-around −100 dBm. Full limiting at −106 dBm means the limiter is saturated for
+around −100 dBm. Full limiting at −106 dBm (−112 dBm as corrected above) means the limiter is saturated for
 *every* signal worth decoding. That is exactly the behaviour you want from an
 FM receiver with no AGC.
 

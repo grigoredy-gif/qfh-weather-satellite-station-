@@ -1,6 +1,8 @@
 # PCB — discrete 137.9 MHz FM satellite receiver
 
 > This is the complete, step-by-step design log of the PCB, kept as I wrote it along the way. For the short overview, start with [README.md](README.md).
+>
+> **Status (November 2026):** the board is finished as a design but was never ordered or built. Version 2 of the receiver replaced it (ordered on 16 November 2026); see [`../pcb_v2`](../pcb_v2) and the [main README](../README.md#from-version-1-to-version-2).
 
 This is the board-level design for the receiver that is simulated and verified in
 [`../fm_receiver/`](../fm_receiver/). The electrical reference for this board
@@ -11,7 +13,8 @@ simulation. If this folder and that netlist ever disagree, the netlist wins.
 ## Frozen decisions
 
 1. **One board.** 180 × 75 mm (Edge.Cuts (50,50)–(230,125)), 2 layers, FR4
-   1.6 mm. I planned it at ~70 mm, but the south 5 mm went to the ADC network
+   1.6 mm. *(Superseded November 2026: stretched to 210 × 75 mm,
+   Edge.Cuts (50,50)–(260,125), for the IF-strip fences.)* I planned it at ~70 mm, but the south 5 mm went to the ADC network
    and the socket row. I considered putting RF+LO on a shielded daughterboard
    and left it for later: coax joints and a two-stage alignment cost more than
    they give at rev 1. If bring-up shows an isolation problem, rev 2 can split.
@@ -34,13 +37,22 @@ simulation. If this folder and that netlist ever disagree, the netlist wins.
    against SIM 9. After the step F emitter re-placement I expect S21 ≥ 13.5 dB
    and VSWR ≤ 1.3 (the layout's remaining ~4.4 nH of emitter inductance costs
    ~1.6 dB against the 15.8 dB of the ideal netlist). Then R65 goes back.
+   *(Superseded November 2026: J2 is now fitted at assembly, a JLC-placed
+   through-hole SMA. The LNA cannot be checked by driving J2, because on the
+   board its load is the mixer's base, not 50 Ω. Only the J1→J2 filter sweep
+   remains; see the bring-up plan in the README.)*
 5. **Alignment pads.** An injection pad through 1 nF to the first IF base
    (drive it at 12.9 MHz, which skips the RF front end completely) and a monitor
    pad on the detector's audio output. The eleven trimmers get aligned with a
-   procedure (inject, turn, maximize), not by guessing.
+   procedure (inject, turn, maximize), not by guessing. *(Corrected November
+   2026: TP1 cannot reach the two IF-filter tanks, the IF is 137.9 MHz minus
+   the measured LO rather than exactly 12.9 MHz, and the slope detector's
+   trimmer must not be maximized on the carrier. Its peak belongs 55 kHz
+   above it. The README's bring-up plan has the corrected procedure.)*
 6. **ESP32 dev module on a socket header** in the bottom-right corner. The USB
    face is flush with the east board edge, and the module's WiFi-antenna end sits
-   *over* the board at the socket's west end (x ≈ 174–180). The module ground is
+   *over* the board at the socket's west end (x ≈ 174–180 then; about
+   203.5–210 on the stretched 210 mm board). The module ground is
    tied to the plane at two points (J3.1 by the socket's west end, J4.14 by the
    power pin). WiFi stays **off** during a pass: record first, transmit after.
    The 5 V comes from the module's `EXT_5V` header pin, which on the DevKitC V4 is
@@ -87,20 +99,25 @@ toroids have link-winding pins (4/5) joined by nets `lnk_a`/`lnk_b`.
   layout keeps the limiter→input coupling ~24 dB below the oscillation
   threshold).
 - Microvolts are on the left edge, volts on the right. The LO's 1.68 V at
-  125 MHz enters the mixer over a ~5 mm trace.
+  125 MHz enters the mixer over a ~5 mm trace. *(As built, the LO path from
+  the LO tap to the mixer base is about 37.5 mm, because it has to get round
+  L11. The electrical effect is small: about 25–30 nH in series with a base of
+  over 1 kΩ, under 0.1 dB.)*
 - Audio (2400 Hz) does not care about layout and can be routed wherever it fits.
 
 ## Footprint library — `qfh_receiver.pretty`
 
 | Footprint | Used for | Notes |
 |---|---|---|
-| `TOROID_T37-6_UNIVERSAL` | all 7 toroids | pins: 1 = cold end, 2 = tap (empty on plain coils), 3 = hot end, 4/5 = link (3 turns of 0.4 mm over the main winding, fitted on **L1 and L7 only**: the two IF-filter tanks, k = (3/27)² ≈ 0.012; drop to 2 turns if the filter comes out over-coupled, see SIM 3). One winding recipe for all: 27 turns of 0.4 mm, and L1–L4 get a twisted loop at turn 13. Which coil gets what is in the schematic symbol names (`L_TOROID`, `_TAP`, `_LINK`, `_TAP_LINK`) and in the BOM's Spec column. Mount on edge with nylon M3 or RTV, never hot glue. |
+| `TOROID_T37-6_UNIVERSAL` | all 7 toroids | pins: 1 = cold end, 2 = tap (empty on plain coils), 3 = hot end, 4/5 = link (fitted on **L1 and L7 only**: the two IF-filter tanks). *Superseded November 2026:* the link was first 3 turns with k = (3/27)² ≈ 0.012, but that rule is wrong for a low-impedance link loop. It is now 2 turns with a 680 nH inductor L13 in series; see the November 2026 fix round. One winding recipe for all: 27 turns of 0.4 mm, and L1–L4 get a twisted loop at turn 13. Which coil gets what is in the schematic symbol names (`L_TOROID`, `_TAP`, `_LINK`, `_TAP_LINK`) and in the BOM's Spec column. Mount on edge with nylon M3 or RTV, never hot glue. |
 | `AIRCOIL_5MM` | BPF L8/L10 (5 turns = 82 nH), ×5/LO tanks L9/L11 (7 turns = 150 nH) | includes a copper-pour keepout on both layers, because a plane under an air coil kills its Q. Coupled pairs sit ~one diameter apart, and that spacing is what sets k ≈ 0.03. |
 
 Everything else uses stock KiCad libraries: SOT-23 (BFR92P, because BFR93A is
-obsolete, see the sourcing pass), TO-92 (2N3904/6), SOD-323/DO-35 (1N4148,
-1N5711), 0805 R and C (every passive on the board is 0805), HC-49/S crystal,
-Murata TZC3 trimmers,
+obsolete, see the sourcing pass), SOT-23 MMBT3904/3906 (TO-92 2N3904/6
+until November 2026), SOD-323 (1N4148, BAS70WS), 0805 R and C (11 passives
+became 0603 in November 2026, for free JLC parts or space), an HC-49SMD
+crystal, and SEHWA STC3 trimmers on one project footprint
+(`C_Trimmer_JZ_STC3`; Murata TZC3 until November 2026),
 `Connector_Coaxial` SMA, and two 1×19 socket rows for the ESP32-DevKitC.
 
 ## Known constraints carried from simulation
@@ -211,7 +228,7 @@ not have to search for them:
 | `blo`, `vb2n` | 6.1 / 6.9 mm | Q2's base and emitter share one SOT-23 face, but their nets arrive from opposite sides, and the e23 corridor blocks the region. Eight single-layer topologies were checked on coordinates, and each one only moved the crossing. |
 | `a_e4b` | 7.5 mm | Local: every gap in the audio component row already had a net through it. |
 | `audio`, `ln_c`, `ef3`, `y4` | 2.5–4.3 mm each | Same reason, one hop each. |
-| `a_ce` | 6.4 mm | Two hops (2.9 + 3.5 mm) under the ESP32 socket, outside the IF strip. Step E3 removed the `vin5`, `adcref` and `adc` hops when it rebuilt the power entry and the ADC divider. |
+| `a_ce` | 6.4 mm | Two hops (2.9 + 3.5 mm) in the audio area, outside the IF strip: next to Q18/R27 and at C41 (on the 210 mm board, both west of the ESP32 socket). Step E3 removed the `vin5`, `adcref` and `adc` hops when it rebuilt the power entry and the ADC divider. |
 
 All are DC or audio except `n_rf2`. **One correction to what this section used to
 say:** the four `vb2` hops are *not* clear of the 96 dB IF strip. They run
@@ -506,8 +523,7 @@ crossings.
 ## September 2026 audit — step A (hygiene, no copper moved)
 
 After the decoupling and socket fixes, a second independent audit by AI review
-agents ran over the board (six of the eight review lenses finished before a usage
-limit paused it). The free, deterministic items were applied right away:
+agents ran over the board (six of the eight review lenses finished). The free, deterministic items were applied right away:
 
 - **Pad metadata** on Q5/Q7/Q9/Q14/Q18 now says E/B/C in the right order
   (the nets were already right; the labels were the last leftover of the BEC error).
@@ -807,7 +823,7 @@ and manufacturability; RF, impedance and noise; document consistency; ESP32
 and mechanical fit; assembly, silkscreen and fab outputs). Each one read the
 files with its own parsers. Every finding rated major or above was then given to
 two more agents, which were told to disprove it or to judge its consequence.
-Result: 41 findings, none critical, for 3.3 M tokens. The checks that passed are as
+Result: 41 findings, none critical. The checks that passed are as
 useful as the defects, so I summarise them first.
 
 **Confirmed clean (numbers recomputed from the files, not from this README):**
@@ -921,14 +937,15 @@ run.
 - BPF hot-node stray recomputed from the copper widths is 0.9–1.0 pF, not
   0.5 pF, so the trimmer nominal is 6.3 pF instead of 6.7, still ≥ 2 pF from either stop.
 - No mounting holes (my decision). The board rests on adhesive standoffs
-  or an edge-supported tray, and the micro-USB cable at x ≈ 229 needs strain
+  or an edge-supported tray, and the micro-USB cable at x ≈ 229 (now at the
+  east edge, x ≈ 252–259, on the 210 mm board) needs strain
   relief at the enclosure, otherwise the socket pins would carry the lever load.
 - The trimmer-position tables of the sourcing pass and the 37.6 dB of SIM 7
   rev 1 are kept as history. The current expectations are in "Known
   constraints".
 
 **The re-check (26 September).** The AI agents that were supposed to review the
-fixes above stopped on a spend limit, so at first the fixes were checked only by
+fixes above did not finish, so at first the fixes were checked only by
 the fix author's own scripts. Then one more independent AI agent recomputed every
 changed area with its own parser and kicad-cli on copies. Its verdict: *ready with
 minor fixes*. It confirmed with its own numbers: every net is one component; the
@@ -950,8 +967,10 @@ sim12 values agree on every SimRef. What it found, and the fixes:
   part's outline, none with another part clearly nearer, and none off the board.
 - **Solder wicking at J1:** the shell vias at x = 54.3 had their drills inside
   the exposed shell pads, under the leg tips. Moved to (55.0, 59.75 / 68.25),
-  0.26 mm clear of the pad. J2 (DNP) has the same geometry, so move its vias to
-  y = 55.0 if it is ever fitted.
+  0.26 mm clear of the pad. J2 had the same geometry. In November 2026 I
+  decided to have J2 fitted at assembly too (DNP removed, value "SMA test"), so
+  its shell vias moved to (82.75 | 91.25, 55.0) the same way, and the two
+  in-pad vias at y = 51.8 were dropped. DRC 0, 347 holes.
 - **Two re-drawn corners were not 45°** (37.7° and 43.6° vcc diagonals at
   (116.5,89.3) and (220.05,89.5)): re-drawn as true 45° pieces.
 
@@ -967,10 +986,580 @@ case) and keeps ≥ 380 ADC counts at the lowest drive. The full table is in
 at a 0.254 mm clearance floor, 0 unconnected, schematic ↔ board 418 nodes /
 0 mismatches, every pad angle matching its library footprint.** Next: gerbers.
 
+## November 2026 — the last through-hole parts become SMD
+
+I want JLCPCB to assemble the board. Through-hole parts are soldered by hand
+there and cost extra, so I swapped every through-hole part that has an SMD twin.
+Only the 11 hand-wound coils (7 toroids, 4 air coils) and the two ESP32 socket
+strips stay through-hole. I solder those myself. The through-hole version is
+kept locally, outside this repository.
+
+| Parts | Was | Now | Why it is the same part electrically |
+|---|---|---|---|
+| Q5, Q7, Q14 | 2N3906, TO-92 | MMBT3906, SOT-23 | same die in a smaller package |
+| Q9, Q18 | 2N3904, TO-92 | MMBT3904, SOT-23 | same die |
+| D1–D4 (limiter) | 1N4148, DO-35 | 1N4148W, SOD-123 | same die |
+| D5 (detector) | 1N5711, DO-35 | 1N5711WS, SOD-323 (Diodes Inc, LCSC C151442) | same 70 V / 2 pF Schottky |
+| Y1 | 25 MHz HC-49 | 25 MHz HC-49/US SMD (HC49-SD) | same crystal blank, so same ESR and drive level |
+| C53, C61 | 100 µF radial | 100 µF SMD electrolytic, 6.3 × 7.7 mm | — |
+| C62 | 1000 µF radial | 1000 µF SMD electrolytic, 10 × 10 mm | — |
+
+The simulations stay valid: the transistor and diode models are for the same
+dies, and nothing in the RF path changed except shorter leads, which helps.
+
+**The pin-order trap again.** TO-92 2N3904/6 are pin 1 = E, 2 = B, 3 = C. SOT-23
+MMBT3904/6 are pin 1 = B, 2 = E, 3 = C. Changing only the footprint would have
+put the emitter net on the base pad. So the five symbols also changed from
+`Q_NPN_EBC`/`Q_PNP_EBC` to `Q_NPN_BEC`/`Q_PNP_BEC`. Those symbols have the same
+graphics and pin positions, so every wire still lands on B, E and C by
+function. The script also refused to run unless each old pad carried the net
+expected for its E/B/C role.
+
+**Routing.** The five transistors sit in the audio chain (2400 Hz), so their
+geometry is not critical, but the traces are still kept short and at 45°.
+- **Q5, Q7, Q14:** the base and emitter come in from the same side, so they
+  needed only short local changes. Q14's collector got its own GND stub and via.
+- **Q18:** its three nets arrive in the mirror order of the SOT-23 pins. The
+  collector trace passes under the body, between the B and E pads (0.4 mm
+  clearance each side), to reach the C pad on the far side.
+- **Q9:** no single-layer layout exists. Its emitter net must reach the C21
+  loop on one side and R41/R6 on the other, so it walls off the collector from
+  the supply. The collector's `vaud` feed therefore takes one 2.2 mm hop on the
+  bottom layer (two vias) under that loop. This is audio, so the small cut in
+  the ground plane does not matter.
+- **D1–D5:** placed so that each pad sits where the old trace ended, so only
+  the n1/n2 links and the D5 audio start point moved.
+- **Y1:** moved 0.8 mm right so its 13 mm pad span keeps 0.7 mm from the board
+  edge. It has new GND vias outside the can, and the via that would have been
+  inside the new pad is gone.
+- **C61, C62:** their old GND vias would have ended up inside the new pads, so
+  they were removed and new ones placed outside. C62 is rotated 180° so its +
+  pad sits next to C63, its 100 nF partner.
+
+**Checks.**
+- DRC 0 errors, 0 warnings at the 0.254 mm floor, 0 unconnected. One silk
+  overlap (C61 outline over the C36 label) was fixed by moving the label.
+- Schematic ↔ board: 418 / 418 pad connections match and all 196 footprints
+  match their symbols, exactly as before the swap.
+- KiCad's own parity report lists the same 226 field and unused-ESP-pin items
+  before and after the swap, so the swap added none.
+
+**State: 678 segments, 236 vias, 317 drill holes (was 347), 196 footprints all
+on the top, bottom-layer exceptions 28 segments / 138.7 mm on 12 nets.**
+
+## November 2026 — will the IF strip oscillate? A study, a longer board and a fence
+
+**Method.** I asked how much stray coupling the strip can tolerate, and how
+much the board actually has.
+
+1. *Tolerance (LTspice, from `sim12`).* An AC analysis around 12.9 MHz, with
+   one test source per run: 1 A injected into an early node, or a 1 V EMF in
+   series with an early winding. Each late node voltage and winding current was
+   measured. From that, the critical coupling (loop gain 1) is
+   C = 1/(ω·|Z|) and M = 1/(ω·|I|).
+2. *Actual coupling (board geometry).*
+   - Capacitive: bodies over a ground plane, with images. A range was used for
+     the effective size and height.
+   - Magnetic: the one-turn loop of each on-edge T37-6, with the radius of the
+     mean core path. All seven toroids stand in one plane, so the loops are
+     coplanar, and the ground-plane image doubles the coupling.
+
+**Critical couplings (smallest coupling that makes the strip oscillate).**
+
+| From → into | Critical value |
+|---|---|
+| c4 / out → ft2 (IF filter tank 2) | 0.045 fF |
+| c4 / out → if | 0.084 fF |
+| c4 / out → b1 | 0.09 fF |
+| dtank → ft2 | 0.085 fF |
+| Magnetic L6 ↔ L1 | 1.4 pH |
+| Magnetic L5 ↔ L1 | 2.7 pH |
+| Magnetic L6 ↔ L7 | 2.7 pH |
+| Magnetic L6 ↔ L2 | 31 pH |
+
+From the filter's second tank to stage 4 there is about 124 dB.
+
+**Estimated loop gains on the original board.**
+
+| Path | Estimate |
+|---|---|
+| Magnetic L6 → L1 (worst single path) | 2.2 |
+| Magnetic, all paths in phase | 5.1 |
+| Electric L6 → L1 | 0.9–7.5 |
+| Electric, all paths | 2.1–17 |
+| PCB traces (2 mm nodes 48 mm apart) | 0.002 fF, negligible |
+| Supply through R66–R69 + 2 × 100 nF | about 3·10⁻⁴ |
+| Shared cascode-bias line `vb2` | far below 1 |
+
+Verdict: as built, the strip would most likely oscillate, or regenerate badly
+enough to distort the passband. The cause is the open row of tall on-edge
+toroids, not the copper. These estimates are good to about a factor of 3.
+
+**Shielded tunable coils were checked and rejected.**
+- The Coilcraft 7M3-222 (2.2 µH, 7 mm can) is no longer in the catalogue.
+  The largest shielded part still made is the Uni10 143-20J12SL (about
+  0.9 µH).
+- Simulated with Q 50 in place of L6 (Rd4 removed): −2.4 dB of strip gain,
+  ADC level 0.43 / 0.39 Vpp (was 0.455 / 0.417), THD 1.3 / 2.5 % (was
+  1.1 / 1.8 %). That works.
+- In place of the detector tank L5, it breaks the slope detector (audio
+  −22 dB, THD 250 %).
+- L4 needs its tap, so it cannot take a can either. A can would therefore
+  only fix one of the three aggressors.
+
+**What was done.**
+- *A 10 mm longer board (190 × 75 mm).*
+  - The board was stretched at x = 150.25, the stage 1 | stage 2 boundary.
+    The scan chose that line because no RF tank part has pads on both sides
+    of it, and the stage-1 collector riser (x = 150.2) stays entirely on one
+    side.
+  - Everything to the right moved 10 mm: 83 footprints, 270 segments and 106
+    vias. The zone outlines and graphics were stretched with it.
+  - Seven crossing tracks were lengthened: `vcc` twice, `vaud`, `a_ce`,
+    `tap1`, and `vb2` on the bottom layer. Two audio pads (R6.2, C29.1) got a
+    10 mm link.
+  - The extra distance alone lowers the summed loop gains from 5.1 to 2.9
+    (magnetic) and from about 4.9 to about 2.7 (electric, middle estimate).
+- *A shield fence.*
+  - An exposed ground strip at x = 156.5 runs from the top edge to the
+    east–west wall (y 50.5 → 95). It has two breaks where `vcc` (y 55.5) and
+    `tap1` (y 58.8) pass under it.
+  - 15 stitching vias run along it, clear of the bottom-layer `vb2` track, and
+    3 more vias close the wall gap at y = 95.5.
+  - It carries a "SHIELD FENCE" silkscreen label.
+  - A 15 mm tall tin-plate strip with two small notches is soldered onto it.
+- *Return-wound toroids.* This is a winding rule, not copper. After the last
+  turn, the wire goes back around the outside of the core to the start, which
+  cancels the one-turn loop (typically 15–25 dB). It is required on L4, L6 and
+  L5 and done on all seven.
+- *Bench gain knob.* Rd1–Rd4 at 10 kΩ → 4.7 kΩ on two stages gives about
+  −10 dB of loop gain, if needed. R66–R69 can go from 10 Ω to 47–100 Ω.
+
+**Then 20 mm more, and a second fence.** To push the margin further:
+- *Gap 1 widened.* The stage 1 | stage 2 gap was widened from 10 to 20 mm by
+  two 5 mm stretches, one on each side of fence 1, so it stays centred (now at
+  x = 161.5).
+- *A new gap.* A new 10 mm gap was opened at x = 185.1, the stage 3 | stage 4
+  boundary. The scan picked this line because only C41 (an audio coupling
+  capacitor) has pads on both sides, and the only RF trace crossing it is the
+  interstage `st3` link.
+- *Fence 2.* It sits at x = 201, from y 50.5 down to the stage-4 wall strip at
+  93.5, with breaks for `vcc` (55.5) and `st3` (58.8) and 15 stitching vias.
+- *Wall gaps closed.* 3 vias at y = 94 and 2 vias at y = 95.5.
+
+Distance alone now gives:
+
+| Path | Estimate |
+|---|---|
+| Magnetic L6 → L1 | 0.54 |
+| Magnetic, sum of paths | 1.3 |
+| Electric L6 → L1 | 0.2–1.8 |
+| Electric, sum of paths | 0.5 / 1.3 / 4.5 (low / mid / high) |
+
+On top of that come the return winding (magnetic) and the fences. L6 and L5
+cross both fences and L4 crosses one. With the typical 15–25 dB from the
+return winding and 15–30 dB per fence, the best estimate of the total loop
+gain is about 0.1–0.4. It is not a guarantee, and the bench still has the Rd
+and R66–R69 knobs.
+
+**Cleanup after the stretches.** A stretch keeps every connection, but it
+cannot judge whether a stretched route still makes sense. Three leftovers were
+fixed:
+- *The ef3 hairpin.* C29's pad sat just right of the first cut, so its trace
+  ran 20 mm out and 20 mm back. It is now a 2.3 mm vertical plus 45° straight
+  to the trace.
+- *The a_ce U-loop at C41.* The vertical run, its bottom-layer hop under `vcc`
+  and the pad link were moved back 10 mm, which restores the original local
+  route.
+- *C72's ground stub.* It had grown from 1.6 to 11.6 mm. About 10 nH in series
+  with a 100 nF decoupling capacitor would have spoiled stage 4's supply
+  bypass, so the stub got its own ground via again.
+
+The split `vb2` hops were merged back into one straight piece per gap, and the
+`ef2` link from R6 ends in a true 45°. A scan for non-45° or tiny segments
+finds nothing new compared with the archived board, apart from the `vb2` hops,
+whose original 2–3° slope is kept.
+
+**State: 210 × 75 mm, DRC 0 / 0 unconnected, schematic ↔ board 418/418, 196
+footprints, 679 segments, 275 vias, 356 drill holes, bottom-layer exceptions 28
+segments / 168.7 mm on 12 nets (the `vb2` hop now spans both gaps).**
+
+## November 2026 — the final check before ordering, and the fix round
+
+Before ordering I had the whole board checked once more, against the
+simulations and the specs, from seven angles: simulation, schematic, RF layout,
+IF stability, power, manufacturing and requirements. Each lens had an
+adversarial verifier. The antenna and MATLAB parts were out of scope. Result: 67
+findings, 60 confirmed, 11 major, none critical. The ranked list is in my private
+notes. I gave the go for the fixes the same day, with
+two more goals: let JLCPCB assemble as much as possible, and move the crystal
+oscillator's capacitors closer and fix their values.
+
+### A. Board fixes
+
+**A1: the IF filter link was over-coupled.** The two filter toroids L7 and L1
+are coupled by a link: a few turns on each, joined by two traces. The design
+assumed k ≈ (n/N)², about 0.012 for 3 turns on 27. That rule is wrong. The two
+link windings form a low-impedance loop, and the coupling it gives is
+
+k_eff = kw² · n²·AL / (2·n²·AL + Lw + Ls)
+
+where kw is the link-to-main coupling on one core (0.7–0.95), Lw the wiring
+inductance of the loop and Ls anything added in series. With the links joined
+directly, k_eff is 0.08–0.3, far above the 0.011 for critical coupling. In
+LTspice this gives a 143–155 kHz single lobe, skirts 10–20 dB weaker, and a
+spurious second passband 1–3 MHz higher, only 3–6 dB down. No number of link
+turns fixes that, because the turns cancel out of the ratio.
+
+The fix is an inductor in series in the loop. Twelve combinations of turns
+and inductor were simulated across kw 0.7–0.95 and Lw 10–25 nH. The choice is
+**2-turn links on both L7 and L1, with a 680 nH ±5 % 0805 wirewound inductor
+L13 in series** (k_eff ≈ 0.0106 at kw = 0.8, Lw = 17.5 nH). The results:
+- kw = 0.8: 209 kHz, −0.46 dB, −24.0 / −24.2 dB at ±500 kHz;
+- kw 0.7 → 0.95: 176 → 284 kHz;
+- single-peaked in every case;
+- the wiring inductance moves the bandwidth by at most 6 kHz.
+
+1 turn + 150 nH or 3 turns + 1.5 µH give the same coupling, but with 1 turn
+the result depends four times more on the wiring. The bench knob is L13 itself:
+820 nH if the filter comes out wider than about 260 kHz, 560 nH if narrower
+than about 170 kHz. L13 sits at (123.9, 68.3) in the link loop (`lnk_a` →
+`lnk_c`, L1 pad 4 = `lnk_c`), and the loop was kept tight (about 40 mm², 3.1 mm
+spacing).
+
+**A2: the supply back-channel into the mixer tank.** L7's cold end hung on the
+`vcc` trunk with only C76 to ground. The stability study's method (critical
+coupling from stepped test sources) gave a loop gain of 0.15–0.95 through the
+supply. The fix has two parts:
+- L7 now has its own feed: R70 10 Ω from `vcc` to a new net `vcc_l7`, with
+  C83 100 nF to ground right at the coil;
+- the four stage feed resistors R66–R69 went from 10 to 47 Ω.
+
+That path is now at most 1.5·10⁻³. All the existing critical couplings rose by
+1–8 %, so those paths became slightly less sensitive. The link loop is a new
+victim path: about 0.05 without the fences and about 0.01 or less with fence 1
+(low confidence).
+
+The change to the whole IF chain is small:
+- strip gain 95.31 → 95.18 dB;
+- filter plus strip 130 → 132 kHz;
+- ADC 0.450 Vpp at 1.10 % THD with the FM test signal (it was 0.455 Vpp,
+  1.15 %).
+
+**A3: the crystal oscillator.** There were two problems:
+- *A UHF parasitic.* C22 and C26, the Colpitts feedback pair, sat at the end of
+  13.6 and 14.4 mm loops, and the simulation with those loop inductances showed
+  a parasitic oscillation at 0.66–0.8 GHz. C22 now sits directly across Q3's
+  base–emitter pads (74.05, 100.6). C26 sits at the emitter with its own ground
+  via (73.36, 104.1 / via at 106.2). A 33 Ω base stopper R71 (`o_b` → `ob_q`)
+  sits at Q3's base. R35 was turned 180° and the `vcc` via moved to
+  (74.3, 98.3) to make room.
+- *The wrong crystal load.* The old 82p / 180p pair plus strays loaded the
+  crystal with about 55 pF, while the crystal is specified for CL = 18–20 pF.
+  That runs the LO about 30 kHz low (an IF near 12.93 MHz), and aligning at
+  exactly 12.9 MHz then gives about 11 % THD in simulation. C22 is now 22 pF.
+  In series with the 180 pF C26 that is 19.6 pF, plus 3–5 pF of strays. The
+  crystal is now an LCSC part with CL = 20 pF (YXC X49SM25MSD2SC, HC-49SMD).
+  The bring-up still measures the real LO and aligns the IF to it.
+
+**A4: the LNA input match.** On the board the LNA drives the mixer's base, not
+50 Ω, so its input impedance is about 19–23 Ω (VSWR 2.3–2.6), and the image
+rejection falls to 33.7–35.8 dB against the 39.5 dB of SIM 7. A shunt R72 56 Ω
+at `n_rf2` (99, 87.26, own ground via) brings the VSWR to about 1.2 and the
+image rejection back to about 38 dB. It costs about 5 dB of gain, and the gain
+budget has 11 dB to spare (the limiter saturates at about −117 dBm, see the
+corrected budget in the receiver log).
+
+**A5: the IF trimmers would have run out of range.** The tank totals from
+`sim12` (66.7–69.2 pF) minus a 56 pF fixed capacitor minus 4–9 pF of board
+strays left the trimmer at or below its minimum. The fixed capacitors C10, C5,
+C8, C18, C1, C14 and C16 are now 47 pF. The trimmers then land at about
+12–18 pF, inside the new 5.8–20 pF parts.
+
+### B. Sourcing for JLCPCB assembly
+
+Every part was checked live against the JLC parts library and LCSC stock on
+6 November 2026:
+- **Trimmers.** The Murata TZC3 parts are obsolete, and LCSC has none. The
+  only SMD trimmers in stock are SEHWA STC3 and Knowles JZ. I chose by
+  position:
+
+  | Trimmers | Part | Range | Why |
+  |---|---|---|---|
+  | C2, C6, C9, C11, C19 (detector, IF stages) | SEHWA STC3MD20 | 5.8–20 pF, N1300 | cheap, same temperature class as the TZC3 |
+  | C15, C17 (IF filter tanks) | Knowles JZ300 | 5.5–30 pF | the filter tanks need the widest window |
+  | C7, C20 (band-pass filter), C4 (×5), C13 (LO) | Knowles JZ100 | 2–10 pF, NP0 | low settings, better tempco than the old N750 part |
+
+  All 11 use one project footprint, `C_Trimmer_JZ_STC3`: the KiCad JZ
+  footprint with its pads enlarged to 1.3 × 1.4 mm at ±1.95 mm, which fits
+  both makers' land patterns. Pad 2 is the rotor. C4 had its rotor on the hot
+  side (`xtank1`), so it was turned 180° and its rotor now sits on `vcc`. The
+  trimmers cost about $25 per board.
+- **SMAs.** JLC has no top-side-only edge-launch SMA. The test SMA J2 became a
+  BAT Wireless BWSMA-KWE-Z001 right-angle through-hole part, placed by JLC.
+  It sits at (87, 54.2), with its four ground posts tied to the plane through
+  vias. The antenna SMA J1 stays an Amphenol 132289 edge-launch part, which I
+  solder myself: the through-hole part's posts would land on C23/C24 at the
+  antenna input.
+- **Sockets.** J3/J4 are Kinghelm 1×19 8.5 mm sockets, placed by JLC as
+  through-hole assembly.
+- **The rest.** Every resistor is a Basic or preferred-extended part, so they
+  carry no setup fee. About 17 Extended lines remain. The pinouts of BFR92P,
+  MMBT3904 and MMBT3906 were rechecked against the LCSC datasheets (1 = B,
+  2 = E, 3 = C).
+
+Every symbol carries a hidden `LCSC` field, and a script in my private notes
+writes `fabrication/qfh_receiver_jlc_bom.csv` and `_jlc_cpl.csv` from it.
+Result: 67 BOM lines and 187 placed parts. Excluded: J1, TP1–TP3 and the 11
+coils.
+
+### C. Smaller fixes
+
+- **Mixer base stopper.** The mixer pair showed a GHz parasitic in
+  simulation. A stopper R73 now sits in Q10's base (`blo` → `blo_q`), and the
+  `blo` via moved to make room. It started at 22 Ω. The verification run below
+  showed that this alone is not enough, so it became 100 Ω, with more parts
+  added at Q15 (section D).
+- **Silkscreen.** D3/D4 were mirrored so their outputs are shorter. Silk lines
+  went to ≥ 0.15 mm and text to ≥ 1.0 mm, which is JLC's minimum (the polarity
+  marks were 0.12 mm). The references of R72, R73, C37, R63 and Q10 are hidden
+  because there is no room for them.
+- **A duplicate track segment at C17** was deleted.
+- **Toroid specs** now spell out the return winding (REQ-11) and the 2-turn
+  links.
+
+### Accepted as they are
+
+- **DFM-5.** The `vb2` bypass vias are exposed in their pad openings. Moving
+  them broke clearance to R16/R19/R21, so they stay. The risk is that some
+  solder wicks into them at reflow. Those joints get checked by eye after
+  assembly.
+- **DFM-3.** Some parts sit within 2.5 mm of the edge. JLC may ask to add edge
+  rails.
+- **SIM-3.** The LO level at the mixer is only 0.14 V peak (18.9 dB
+  conversion gain), but the gain budget has room.
+- **SIM-5.** The ×5's 4th harmonic is −32 dB.
+- **RF-2.** The band-pass filter's air-coil coupling depends on how the coils
+  are oriented: wind and mount them as the footprint shows.
+- **IF-6.** The limiter's `out` net detours 51 mm. It is a limited signal at
+  that point.
+
+### D. Verification of the fixes, and the mixer fix it led to
+
+`sim12` was updated to match the board, and the result was checked again at
+4.6 V:
+- *the IF filter link loop:* modelled;
+- *L7's own feed and the 47 Ω stage feeds:* in;
+- *R72, R71 and R73:* in;
+- *the crystal:* a CL 20 pF model.
+
+| Check | Result |
+|---|---|
+| DC | everything biased as before, 40.5 mA total |
+| Crystal oscillator | clean start-up in about 0.5 ms; no UHF parasitic, even with twice the loop inductance; 39–64 µW crystal drive; LO within −4.2 / +1.8 kHz (it was about −30 kHz) |
+| LO at the mixer | 0.41–0.45 V peak (was 0.14 V); conversion gain 19.6 dB |
+| LNA input with board parasitics | 45.6 + j6.5 Ω, VSWR 1.18; antenna input VSWR 1.23 |
+| Image rejection at 112.1 MHz | 38.3 dB (35.8 dB without R72); 1.2 dB short of 39.5, accepted |
+| IF filter / strip | 218 kHz single peak at 12.91 MHz; strip 95.1 dB, 169 kHz; together 133 kHz |
+| FM end to end (±17 kHz, 2400 Hz) | ADC 0.44 Vpp at 1.8 % THD (about −101 dBm); 0.39 Vpp at 2.0 % (about −81 dBm) |
+
+One check failed: **the mixer pair still oscillated at 0.9–1.8 GHz** in the
+model with only R73 = 22 Ω. A larger R73 alone did not fix it (47–330 Ω all
+failed), nor did a 1 nF capacitor alone at Q15's base. The confidence is low,
+because the transistor model is generic near its fT. But the fix is cheap, so
+it went in. A kicked transient was run across 0.5 / 1 / 1.5 × the estimated
+layout inductance, with and without the LO running. The fix that is clean in
+every case:
+- **R73 22 → 100 Ω** in Q10's base;
+- **a snubber at Q15's base**: C84 1 nF in series with R74 47 Ω, to ground;
+- **R75 100 Ω in Q15's collector feed.** It costs 0.12 V of Q15's V_CE
+  (2.84 V left at 1.15 mA) and about 0.15 dB of conversion gain.
+
+The only free spot puts the snubber 3–4 mm from Q15's base, so I re-ran the
+check with more lead inductance on it. With R75 = 100 Ω the mixer stays clean
+up to 6 nH of snubber lead at 1.5 × layout inductance, and up to 8 nH at the
+nominal estimate. The layout gives about 5 nH.
+
+**Layout.** Q15 sits between R43, C47, the `e23` track and the `vcc` via, so
+it needed some rearranging:
+- *R63 / R64 moved away.* They are the 13k / 15k bias divider for `vb2n` and
+  only carry DC, so they could go anywhere on that net. R63 now sits by C33 at
+  (105, 89.3), bridging the `vcc` trunk and the `vb2n` track. R64 sits above
+  the stack at (114.3, 75.6), with its own ground via.
+- *The snubber stack.* C84 and R74 are 0603: the 1.75 mm between C47 and R75
+  does not fit 0805. They are stacked straight above Q15's base pad, and R74
+  has its own ground via.
+- *R75.* An 0603 part between Q15's collector pad and the relocated `vcc` via
+  at (114.85, 78.4). Q15's collector is now its own net, `q15_c`.
+- *The base via.* It moved to (113.55, 81.375), 0.05 mm further from the
+  bottom `vcc` track than the first try, to keep 0.254 mm clearance.
+- *Hidden references.* Q15, R74, R75 and C84 have no room for a reference.
+
+The new parts are all big-stock LCSC parts: C1588, C23182 and C22775 (R73 is
+now C17408).
+
+**State after the fix round:**
+- 210 × 75 mm, 205 footprints, 694 segments, 278 vias, 364 drill holes;
+- DRC 0 violations / 0 unconnected;
+- schematic ↔ board 436 pad connections, no differences (the 33 unused ESP32
+  pins are no-connects);
+- bottom-layer exceptions 27 segments / 171.0 mm on 12 nets;
+- JLC: 70 BOM lines, 190 placed parts.
+
+## November 2026 — the cost-down for JLC assembly
+
+A JLC quote with assembly came out at well over €100 for two boards, which I
+cannot afford. Most of that was not the parts themselves. JLC charges about $3
+per order for every *different* "Extended" part, while Basic and "preferred
+Extended" parts carry no fee. The BOM had 19 Extended lines, and the four
+Knowles 2–10 pF trimmers alone cost $3.63 each.
+
+**What I decided first:**
+- I solder J2, J3 and J4 myself. That removes two Extended lines and JLC's
+  through-hole assembly.
+- The circuits stay as they are. Only parts are swapped, and a value changes
+  only if a simulation shows the block still meets its numbers.
+
+**How it was checked.** Every BOM line was looked up live in JLC's parts API:
+type, preferred flag, stock and price. Three block agents (RF/LO,
+audio/detector, power/crystal) proposed free replacements and simulated every
+value change. An adversarial verifier then re-checked every part against the
+API and the datasheets, and put all the accepted swaps into one copy of `sim12`
+to re-measure the baseline. 0805 → 0603 was the only footprint change allowed:
+the old track ends (±0.95 mm) land inside the 0603 pads, so no copper moves.
+
+| Ref | Was | Now | Why it is safe |
+|---|---|---|---|
+| C15, C17 (IF filter trimmers) | Knowles JZ300 5.5–30 pF, $3.84 | SEHWA STC3MD20 5.8–20 pF (same part as the five IF-stage trimmers) | needs 15.7–18.7 pF; Q 250 vs 200; filter 221 kHz |
+| C4, C7, C13, C20 (VHF trimmers) | Knowles JZ100 2–10 pF, $3.63 | SEHWA STC3MA06 2–6 pF, $0.49, Q 500 | fixed parts re-split so it lands mid-range (below) |
+| C3 (×5 tank) | 3.3p | 4.7p 0603 (preferred) | trimmer setting about 4 pF |
+| C12 (LO arm) | 5.6p | 6.8p 0603 (preferred) | trimmer setting about 4.6 pF |
+| C23/C27, C24/C28 (BPF taps) | 8.2p / 56p | 10p / 68p 0603 (Basic / preferred) | same 0.128 tap ratio; the trimmer drops to about 5 pF |
+| C21, C29 (audio) | 2.7n, 8.2n 0805 | same values in 0603 (preferred / Basic) | no value change |
+| C30 (audio) | 1.2n | 1.0n (Basic, already on the BOM) | audio corner 6.1 → 6.6 kHz, −40 dB point 19.0 → 20.0 kHz |
+| C25, C31 | 2.2n X7R (Extended) | 2.2n C0G (Basic) | better dielectric, no fee |
+| D5 (slope detector) | 1N5711WS, $0.48, 247 in stock | BAS70WS SOD-323 (preferred), CT ≤ 2 pF | the detector trimmer moves about +0.1 pF |
+| Q5, Q7, Q14 | MMBT3906 (CJ, Extended) | MMBT3906 (hongjiacheng, preferred), pinout 1 = B, 2 = E, 3 = C checked | same part type |
+| C62 | Panasonic 1000 µF 25 V, $0.99 | JARSON 1000 µF 10 V 90 mΩ, $0.12 (still Extended) | 10 V on a 4.6 V rail; same 10×10 footprint |
+
+**The verifier rejected one idea.** The first plan put the 5.8–20 pF part on
+all eleven trimmers and deleted C3/C12. That drops the LO at the mixer by
+1.2 dB (0.354 V pk instead of 0.404), because that part's Q of 250 then carries
+the whole tank capacitance. The 2–6 pF part fixes this with a better Q (500)
+and a smaller share of the tank, but its 4 pF range needs the fixed parts
+re-split:
+- *LO chain:* C3 = 4.7p and C12 = 6.8p, tank totals unchanged. The LO at
+  Q10's base is 0.395 V pk (−0.2 dB), or 0.379 V pk if the real Q at 125 MHz is
+  only 250. Conversion gain changes by about −0.03 dB.
+- *Band-pass filter:* the taps 10p/68p keep the 0.128 ratio and move about
+  1.6 pF from the trimmer into the taps. After re-tuning the trimmer to its
+  best value, the filter loss rises about 0.14 dB. Image rejection falls 0.35 dB
+  from the taps and 0.2 dB from the trimmer Q, to **37.7 dB** (it was 38.3).
+  The antenna VSWR improves from 1.31 to 1.22.
+- *If a VHF trimmer hits an end:* squeeze or spread its air coil (L8/L10, L9,
+  L11).
+
+I accepted the 0.5 dB of image rejection for about $25 less per order.
+
+**The combined result** (verifier, all swaps together, plus my two follow-up
+runs above):
+
+| Check | Now | Before |
+|---|---|---|
+| Supply | 40.5 mA | 40.5 mA |
+| Oscillator, LO frequency, UHF check | identical | — |
+| LNA VSWR | 1.178 | 1.178 |
+| IF filter | 221 kHz | 218 kHz |
+| IF strip | 95.1 dB, 169 kHz | 95.1 dB, 169 kHz |
+| FM at the ADC, weak signal | 0.50 Vpp, 1.48 % THD | 0.44 Vpp, 1.82 % |
+| FM at the ADC, strong signal | 0.45 Vpp, 1.73 % THD | 0.39 Vpp, 2.01 % |
+
+`sim12` was updated:
+- the BPF taps are 10p/68p, with Ct 7.12p;
+- the detector diode is the BAS70WS model, and the detector is retrimmed to
+  66.8p;
+- C4_A is 1.0n.
+
+**What stays Extended (8 lines)** has no free equivalent:
+- BFR92P: 15 per board, and no Basic RF transistor has its pinout and fT;
+- the two SEHWA trimmers;
+- the CL 20 pF crystal: the only Basic 25 MHz crystal is CL 12 pF and has a
+  different footprint;
+- L13 680 nH;
+- C26 180p;
+- the 100 µF and 1000 µF electrolytics.
+
+**Cost** (live unit prices, two boards, without the PCB, setup and shipping):
+- before: 19 Extended lines = $57 in fees + $67 in parts = **$124**;
+- after: 8 Extended lines = $24 in fees + $26 in parts = **$50**.
+
+**State:**
+- 205 footprints, 11 of them 0603;
+- DRC 0 / 0 unconnected;
+- schematic ↔ board 436 connections;
+- JLC: 65 BOM lines, 187 placed parts. J1–J4 and the coils are mine to fit.
+
+## November 2026 — the check before hand-soldering (no copper changed)
+
+On 10 November I had the board checked once more before soldering it by hand.
+It was one read-only pass by the AI assistant, not a multi-agent run: a script
+read every pad, net, track and via out of the board file, and the results were
+compared with `sim12`, the order list and the bring-up plan.
+
+**Checked and correct:**
+- all 20 transistors (pad 1 = B, 2 = E, 3 = C), the five diodes and the three
+  electrolytics, against the netlist;
+- the ESP32 socket: 3V3 on pin 1, GPIO36 (ADC1) on pin 3, GND on pin 14, 5V on
+  pin 19;
+- the fix-round parts sit where this log says: C22/C26/R71 within 2–3 mm of
+  Q3, the mixer stoppers at the pins, L7's own feed;
+- a 100 nF within 2.5 mm of every cascode base;
+- separate ground returns for the two band-pass tanks;
+- the gerbers contain the cost-down footprints, and the board file is
+  identical to the backup taken when they were exported;
+- every board reference is on the LCSC order.
+
+**Found, and what I changed (documents and order lists only):**
+
+| Finding | Numbers | Change |
+|---|---|---|
+| C15/C17 near the top of their range | need 15.7–18.7 pF of 20 pF: 2–6 % headroom, and a T37-6 core is ±5 % | bring-up step 6: pad with 4.7 pF C0G, or wind 28 turns |
+| The link loop floats | a link over the hot end has 0.5–1 pF to the tank, so 0.25–0.5 pF tank to tank, against 0.77 pF (0.011 × 70 pF) of designed coupling | links go at the cold end; wire from L1 pad 5 to L1 pad 1; in the README, the BOM and the schematic's Spec field |
+| The Pluto cannot make 12.9 MHz | its range starts at 70 MHz | steps 5 and 7 now inject at J1 (137.9 MHz, and 137.9 MHz + 55 kHz) |
+| A scope probe detunes a stage | 12 pF on 68.7 pF is 17 %, about 1.1 MHz at 12.9 MHz | steps 4–6: use the DC at TP2, or probe the tap (about 2.8 pF) |
+| The no-signal check came too early | a detuned strip has little gain | repeated after step 7, with the fences on |
+| L13's part number in the BOM was stale | `qfh_receiver_bom.csv` said Sunlord C279930, which LCSC does not list; the order has C62554 = FH FHW0805UCR68JGT, 680 nH 5 %, 2.1 Ω, Q 23 at 50 MHz, SRF 300 MHz | BOM line corrected; the order was already right |
+| WiFi next to the audio chain | module antenna 12–15 mm from Q5/Q7, about 30 mm from stage 4 | step 8: WiFi and Bluetooth off while sampling |
+| Only 2 spare BFR92P | 15 to solder by hand | 22 on the one-board order, 37 on the two-board order (+$1.92) |
+| No DC table for step 1 | — | table added to step 1, from the `sim12` operating point (40.5 mA) |
+| Air-coil lengths were not written down | Wheeler, 0.8 mm wire on a 5 mm former: 5 turns over 7.5 mm = 82 nH, 7 turns over 8.2 mm = 150 nH; wound tight about 120 and 190 nH | README winding rules, the BOM and the schematic's Spec field. The band-pass coils start at 7 mm (about 86 nH), which moves their trimmers from about 5.2 pF towards mid-range |
+| Stale numbers in the two READMEs | `pcb/README.md` said 28 bottom-layer segments, 172 mm (the board has 27, 171.0 mm); `fm_receiver/README.md` still had the 8.2p/56p taps and the 1N5711 detector diode | corrected to 27 / 171 mm, 10p/68p and BAS70WS |
+
+**Noted, not changed:**
+- `n_rf2` (LNA to mixer) is 32 mm long, 23 mm of it on the bottom layer:
+  about 25–30 nH, not in the simulation. Estimated effect about +0.6 dB.
+- The crystal is 20 mm from Q3. The 37 mm base track adds about 3 pF, so the
+  LO should come out about 7 kHz low at 125 MHz. Step 2 measures it anyway.
+- The socket rows are 25.4 mm apart: measure the DevKitC before soldering.
+- D5's pads (SOD-323, 0.6 × 0.45 mm) are the smallest joints on the board.
+
+**Not covered by this pass:** the toroid-to-toroid coupling and the fences
+(the stability study above stands as it is), the trimmer and SMA land patterns
+against their datasheets. Only the `sim12` operating point was re-run (on a
+copy). KiCad's own DRC on a copy of the board gives 0 clearance errors and 0
+unconnected items; its schematic-parity check lists only the 33 unused ESP32
+socket pins and missing text fields. Those pins are no-connects in the
+schematic, and the command-line check reports them as having no pin there. No
+other pad differs.
+Grounding the link
+loop is a bench wire, not a track, so the board, the gerbers and `sim12` are
+unchanged.
+
 ## Attribution
 
 This board is my project: I set the requirements and the layout rules, and I
-approved every change. I will assemble, align and measure it myself. I used
+approved every change. If I build it, I will assemble, align and measure it
+myself. I used
 Claude (Anthropic) as an AI assistant for the KiCad work: following my
 requirements and reviews, it did most of the placement and routing by script,
 ran the design checks and did independent review passes, as described in the

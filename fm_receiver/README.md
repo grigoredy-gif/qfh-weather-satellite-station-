@@ -12,6 +12,15 @@ software can turn it into an image. The NOAA satellites that sent APT were
 switched off in 2025, so I test with recorded passes played back through an
 ADALM-Pluto SDR.
 
+> **Status (November 2026): version 1 is complete as a design, but it was
+> never ordered or built.** It needs 11 hand-wound coils and 11 trimmers, and
+> having two boards assembled by JLCPCB was quoted at about €140.
+> [Version 2](../fm_receiver_v2) does the same job with two conversions, no
+> coils to wind and nothing to tune, and it is the receiver I am building
+> (ordered on 16 November 2026). This
+> folder stays as the record of version 1. Why and how the plan changed:
+> [the main README](../README.md#from-version-1-to-version-2).
+
 ## Motivation
 
 In my first year of Electrical Engineering at the University of Twente, the
@@ -73,7 +82,7 @@ audio low-pass + level shift -> ESP32 ADC (44.1 kHz) -> APT image in software
 
 - **Band-pass filter.** Two tuned circuits with 82 nH air coils, coupled
   magnetically by their spacing. At 137.9 MHz a coil tap would sit at 0.65 of a
-  turn, so a capacitive divider (8.2 pF over 56 pF) does the 50 ohm matching.
+  turn, so a capacitive divider (10 pF over 68 pF) does the 50 ohm matching.
   Its main job is to remove the image at 112.1 MHz before it reaches the mixer.
 - **LNA.** One BFR92P with shunt feedback and emitter degeneration. It sets
   the noise figure of the whole receiver.
@@ -92,7 +101,7 @@ audio low-pass + level shift -> ESP32 ADC (44.1 kHz) -> APT image in software
   possible at all.
 - **Limiter and slope detector.** Diodes clip the IF so only the frequency is
   left. A tank tuned slightly off the carrier turns the frequency swing into an
-  amplitude swing, and a Schottky diode (1N5711) recovers the audio.
+  amplitude swing, and a Schottky diode (BAS70WS) recovers the audio.
 - **Audio chain.** Two Sallen-Key sections built around emitter followers (a
   4th-order Butterworth low-pass), a gain stage, and a divider that centres the signal at 1.26 V in the ESP32 ADC's
   linear range (GPIO36). It has its own RC-filtered supply, so the ESP32's
@@ -142,7 +151,9 @@ header saying what it tests.
 
 End to end the gain is about **130 dB** (−2.2 dB filter, +15.8 dB LNA,
 +20.6 dB mixer and IF filter, +95.8 dB IF strip), so the limiter is fully
-driven from about −106 dBm at the input. A QFH antenna delivers roughly
+driven from about −106 dBm at the input. A later direct measurement in the
+4.6 V deck put full limiting even lower, at about −117 dBm; with the 56 Ω LNA
+termination the PCB fix round added, the board limits fully at about −112 dBm. A QFH antenna delivers roughly
 −90 dBm from a satellite pass. Most block simulations were run at 5.0 V
 before I found the real rail; `sim12` is the one re-centred for 4.6 V and is the
 design authority for the PCB.
@@ -152,8 +163,10 @@ design authority for the PCB.
 - **Done:** every block simulated, the interfaces checked, and the full receiver
   simulated from FM input to the ADC.
 - **Done:** the PCB is designed and checked (see [`../pcb`](../pcb)).
-- **Next:** order the board, build it, align it one block at a time, and feed it
-  a recorded APT pass from the Pluto.
+- **Not done:** the board was never ordered. Assembly by JLCPCB was quoted at
+  about €140 for two boards, and by hand it means winding 11 coils and
+  aligning 11 trimmers. I designed [version 2](../fm_receiver_v2) instead,
+  which a factory can assemble completely.
 
 ## What I learned
 
