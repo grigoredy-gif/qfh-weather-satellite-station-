@@ -62,6 +62,14 @@ in the sky, so it does not need to be pointed. I wrote a MATLAB tool that
 computes the antenna, exports it for simulation in NEC2, and prints a drilling
 template for the mast. Then I built the antenna and measured it.
 
+<p align="center"><img src="qfh_matlab/img/qfh_antenna_field_setup_composite.jpg" width="420" alt="The QFH antenna on its mast in a park, with the ADALM-Pluto and a laptop showing SatDump"></p>
+
+*Photo of my receiving setup in a park: the QFH antenna on its mast on a
+concrete post, the ADALM-Pluto SDR (the blue box) and the laptop. The laptop
+screen is edited in: it shows a SatDump screenshot from my own recording of
+5 August 2026 (the spectrum and waterfall at 137.9 MHz). When the photo was
+taken, the laptop showed a document.*
+
 | The model (MATLAB) | The built antenna, measured |
 |---|---|
 | ![QFH antenna model](qfh_matlab/QFH_137.5MHz_d1.78mm.png) | ![Measured S11 of the antenna](qfh_matlab/img/antenna_s11_measured_2026-07-26.jpg) |

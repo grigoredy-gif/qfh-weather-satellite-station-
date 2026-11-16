@@ -137,6 +137,12 @@ feedpoint.
 I built the antenna for 137.5 MHz on a PVC mast from these drawings and
 measured it with a miniVNA Tiny.
 
+<p align="center"><img src="img/qfh_antenna_field_setup_composite.jpg" width="420" alt="The built QFH antenna on its mast in a park"></p>
+
+*Photo: the built antenna on its mast in a park, on a concrete post, with the
+ADALM-Pluto SDR (the blue box) and my laptop. The laptop screen is edited in:
+a SatDump screenshot from my own recording of 5 August 2026.*
+
 | Simulated (4nec2) | Measured (miniVNA Tiny) |
 |---|---|
 | ![Simulated SWR of the QFH model](img/antenna_swr_simulated_4nec2.png) | ![Measured S11 of the built QFH](img/antenna_s11_measured_2026-07-26.jpg) |
